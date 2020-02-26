@@ -34,7 +34,7 @@ public class SwaggerDocumentationConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 //当接口与实现类在同一个工程下时，这里包的路径要指到实现接口的类的包或者父包，而不是接口的包
-                    .apis(RequestHandlerSelectors.basePackage("com.example.GrandWorldM"))
+                    .apis(RequestHandlerSelectors.basePackage("com.example.GrandWorldM.controllers"))
                     .build()
                 .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)

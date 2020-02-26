@@ -1,4 +1,4 @@
-package com.example.GrandWorldM.controller;
+package com.example.GrandWorldM.controllers;
 
 import com.example.GrandWorldMSpec.generated.controller.interfaces.AncillariesManagementApi;
 import org.springframework.http.ResponseEntity;
