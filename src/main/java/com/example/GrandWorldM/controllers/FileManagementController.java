@@ -61,7 +61,12 @@ public class FileManagementController implements FileManagementApi {
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         //以string类型返回在swagger页面无法下载
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>(new String(bytes), headers, HttpStatus.CREATED);
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(new String(bytes,"utf-8"), headers, HttpStatus.CREATED);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return responseEntity;
     }
 
