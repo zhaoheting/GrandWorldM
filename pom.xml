@@ -54,6 +54,11 @@
 			<artifactId>GrandWorldMSpec</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.example</groupId>-->
+			<!--<artifactId>GrandWorldMSpec</artifactId>-->
+			<!--<version>0.0.1-SNAPSHOT-client</version>-->
+		<!--</dependency>-->
 	</dependencies>
 
 	<build>
