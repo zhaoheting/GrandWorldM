@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,8 +20,19 @@ import java.io.IOException;
 @RestController
 public class RuleManagementController implements RuleManagementApi {
 
+    //只支持从页面点击下载按钮
     @Override
-    public ResponseEntity<RuleResponse> downLoadZipInBytesGet() {
+    public ResponseEntity<Resource> downLoadZipInFileGet() {
+        String path = "C:\\Users\\heting.zhao\\Downloads\\ZhtLearning.zip";
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + path)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new FileSystemResource(path));
+    }
+
+    @Override
+    public ResponseEntity<RuleResponse> rulesGet(String type, String ruleSetName, String tableName, String tenantId, String version) {
         File zipFile = new File("C:\\Users\\heting.zhao\\Downloads\\LearnCodeGen.zip");
         FileInputStream fileInputStream = null;
         ByteArrayOutputStream byteOutPutStream = null;
@@ -51,14 +64,10 @@ public class RuleManagementController implements RuleManagementApi {
         return responseEntity;
     }
 
-    //只支持从页面点击下载按钮
     @Override
-    public ResponseEntity<Resource> downLoadZipInFileGet() {
-        String path = "C:\\Users\\heting.zhao\\Downloads\\ZhtLearning.zip";
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + path)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new FileSystemResource(path));
+    public ResponseEntity<String> pushRuleBundles(String types, String tenantId, String version, @Valid MultipartFile ruleZip) {
+        //TODO
+        //return a uuid.
+        return null;
     }
 }
