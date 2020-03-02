@@ -34,7 +34,7 @@ public class ZipDownloadUtils {
     }
 
     public static void batchFileToZip( ByteArrayOutputStream byteArrayOutPutStream) throws FileNotFoundException {
-        File file = new File("/Users/zhao/gitRepoIntelliJ/LearnHowToUseGit/build.gradle");
+        File file = new File("c:/srv.yaml");
 //        FileInputStream fileInputStream = new FileInputStream(file);
 
         ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutPutStream);

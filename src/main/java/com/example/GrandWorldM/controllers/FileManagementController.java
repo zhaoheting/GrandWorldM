@@ -1,5 +1,6 @@
 package com.example.GrandWorldM.controllers;
 
+import com.example.GrandWorldM.model.FileResponse;
 import com.example.GrandWorldM.utils.ZipDownloadUtils;
 import com.example.GrandWorldMSpec.generated.controller.interfaces.FileManagementApi;
 import org.springframework.core.io.FileSystemResource;
@@ -11,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class FileManagementController implements FileManagementApi {
         //以string类型返回在swagger页面无法下载
         ResponseEntity<String> responseEntity = null;
         try {
-            responseEntity = new ResponseEntity<String>(new String(bytes,"utf-8"), headers, HttpStatus.CREATED);
+            responseEntity = new ResponseEntity<String>(new String(bytes, "utf-8"), headers, HttpStatus.CREATED);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -77,6 +76,30 @@ public class FileManagementController implements FileManagementApi {
         ZipDownloadUtils.batchFileToZip(byteOutPutStream);
         String zipName = "zzz.zip";
         ResponseEntity<byte[]> responseEntity = ZipDownloadUtils.downloadZip(zipName, byteOutPutStream);
+        return responseEntity;
+    }
+
+    @GetMapping("/zipFile")
+    public ResponseEntity<FileResponse> zipFileGet() throws IOException {
+        File zipFile = new File("C:\\Users\\heting.zhao\\Downloads\\LearnCodeGen.zip");
+        FileInputStream fileInputStream = new FileInputStream(zipFile);
+        ByteArrayOutputStream byteOutPutStream = new ByteArrayOutputStream();
+        byte[] bytes = new byte[1024];
+        int i = 0;
+        while ((i = fileInputStream.read(bytes)) != -1) {
+            byteOutPutStream.write(bytes, 0, bytes.length);
+        }
+        byteOutPutStream.close();
+        fileInputStream.close();
+//        HttpHeaders headers = new HttpHeaders();
+//        String fileName = new String("zzz.zip".getBytes("UTF-8"), "ISO-8859-1");
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", fileName);// 文件名称
+        FileResponse fileResponse = new FileResponse();
+        fileResponse.setBytes(byteOutPutStream.toByteArray());
+        fileResponse.setStr(new String(byteOutPutStream.toByteArray(),"utf-8"));
+        //以字节数组返回可直接在swagger页面下载
+        ResponseEntity<FileResponse> responseEntity = new ResponseEntity<FileResponse>(fileResponse, HttpStatus.CREATED);
         return responseEntity;
     }
 }
