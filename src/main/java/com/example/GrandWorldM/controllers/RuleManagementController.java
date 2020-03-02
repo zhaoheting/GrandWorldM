@@ -54,7 +54,7 @@ public class RuleManagementController implements RuleManagementApi {
     //只支持从页面点击下载按钮
     @Override
     public ResponseEntity<Resource> downLoadZipInFileGet() {
-        String path = "/Users/zhao/Downloads/GrandWorldG.zip";
+        String path = "C:\\Users\\heting.zhao\\Downloads\\ZhtLearning.zip";
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + path)
