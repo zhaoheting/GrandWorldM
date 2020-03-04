@@ -1,6 +1,7 @@
 package com.example.GrandWorldM.controllers;
 
 import com.example.GrandWorldMSpec.generated.controller.interfaces.RuleManagementApi;
+import com.example.GrandWorldMSpec.generated.model.ActivatedInfo;
 import com.example.GrandWorldMSpec.generated.model.RuleResponse;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class RuleManagementController implements RuleManagementApi {
@@ -68,6 +70,13 @@ public class RuleManagementController implements RuleManagementApi {
     public ResponseEntity<String> pushRuleBundles(String types, String tenantId, String version, @Valid MultipartFile ruleZip) {
         //TODO
         //return a uuid.
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> rulesSubscribersSubscriberIdActivatedInfoPost(String subscriberId, @Valid List<ActivatedInfo> activatedRuleInfoList) {
+        //todo
+        //更新数据库表中的心跳时间
         return null;
     }
 }
