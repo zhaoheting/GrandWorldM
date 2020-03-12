@@ -68,10 +68,11 @@
             <!--<version>1.1.1</version>-->
         <!--</dependency>-->
         <!--connect pool of db-->
+        <!--版本高的话有可能看不到druid的配置页面-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.21</version>
+            <version>1.1.10</version>
         </dependency>
         <dependency>
             <groupId>com.oracle.ojdbc</groupId>
