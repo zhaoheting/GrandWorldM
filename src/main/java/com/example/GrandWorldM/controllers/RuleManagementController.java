@@ -1,82 +1,15 @@
 package com.example.GrandWorldM.controllers;
 
 import com.example.GrandWorldMSpec.generated.controller.interfaces.RuleManagementApi;
-import com.example.GrandWorldMSpec.generated.model.ActivatedInfo;
-import com.example.GrandWorldMSpec.generated.model.RuleResponse;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import com.example.GrandWorldMSpec.generated.model.TableRuleResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 public class RuleManagementController implements RuleManagementApi {
 
-    //只支持从页面点击下载按钮
     @Override
-    public ResponseEntity<Resource> downLoadZipInFileGet() {
-        String path = "C:\\Users\\heting.zhao\\Downloads\\ZhtLearning.zip";
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + path)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new FileSystemResource(path));
-    }
-
-    @Override
-    public ResponseEntity<RuleResponse> rulesGet(String type, String ruleSetName, String tableName, String tenantId, String version) {
-        File zipFile = new File("C:\\Users\\heting.zhao\\Downloads\\LearnCodeGen.zip");
-        FileInputStream fileInputStream = null;
-        ByteArrayOutputStream byteOutPutStream = null;
-        try {
-            fileInputStream = new FileInputStream(zipFile);
-            byteOutPutStream = new ByteArrayOutputStream();
-            byte[] bytes = new byte[1024];
-            int i = 0;
-            while ((i = fileInputStream.read(bytes)) != -1) {
-                byteOutPutStream.write(bytes, 0, bytes.length);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (byteOutPutStream != null) {
-                    byteOutPutStream.close();
-                }
-                if (fileInputStream != null)
-                    fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        RuleResponse ruleResponse = new RuleResponse();
-        ruleResponse.setRuleInBytes(byteOutPutStream.toByteArray());
-        //以字节数组返回可直接在swagger页面下载
-        ResponseEntity<RuleResponse> responseEntity = new ResponseEntity<RuleResponse>(ruleResponse, HttpStatus.CREATED);
-        return responseEntity;
-    }
-
-    @Override
-    public ResponseEntity<String> pushRuleBundles(String types, String tenantId, String version, @Valid MultipartFile ruleZip) {
-        //TODO
-        //return a uuid.
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<String> rulesSubscribersSubscriberIdActivatedInfoPost(String subscriberId, @Valid List<ActivatedInfo> activatedRuleInfoList) {
-        //todo
-        //更新数据库表中的心跳时间
+    public ResponseEntity<TableRuleResponse> getTableRule(String bundleName, String ruleName, String tenantKey, String version) {
         return null;
     }
 }

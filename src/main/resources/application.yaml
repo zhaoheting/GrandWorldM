@@ -1,0 +1,36 @@
+# 数据为为为配置
+server:
+  port: 8082
+spring:
+  datasource:
+    druid:
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@localhost:1521:xe
+      username: zhtdb
+      password: root
+      # 下面为为接池的为充为置，为用到上面所有数据源中
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 初始化大小，最小，最大
+      initialSize: 1
+      minIdle: 2
+      maxActive: 2
+      # 配置为取为接等待超为的为为
+      maxWait: 60000
+      # 配置为隔多久才执行一次，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个为接在池中最小生存的为为，为位是毫秒
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      isOracle: true
+      # 打开PSCache，并且指定每个为接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置为控为为为截的filters，去掉后为控界面sql无法为为，'wall'用于防火为
+      filters: stat,slf4j,wall
+      # 通为 connectProperties属性来打开mergeSql功能；慢SQL为为
+      connection-properties:
+        druid.stat.mergeSql: true
+        druid.stat.slowSqlMillis: 5000
+        druid.wall.multiStatementAllow: true
