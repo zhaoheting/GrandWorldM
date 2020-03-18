@@ -2,6 +2,11 @@
 server:
   port: 8082
 #代码里若想零配置，则yaml文件里面必须这样写；
+logging:
+  level:
+    com:
+      looedu:
+        mapper: trace
 spring:
   datasource:
       driverClassName: oracle.jdbc.OracleDriver
@@ -50,3 +55,14 @@ spring:
           # 登录用户名/密码
           login-username: root
           login-password: 123
+mybatis:
+#  check-config-location: true                             # 是否检测MyBatis运行参数配置文件
+#  config-location: classpath:/mybatis-config.xml          # 指定MyBatis运行参数配置文件位置
+#  mapper-locations: classpath:/mapper/**/*.xml            # 注册XML映射器
+#  type-aliases-package: com.example.GrandWorldM.entity             # 配置Java类型包名
+#  type-handlers-package: test.springboot.handlers         # 配置类型处理器包名
+#  executor-type: SIMPLE                                   # 指定执行器类型
+  configuration:
+#      default-fetch-size: 20
+#      default-statement-timeout: 30
+      mapUnderscoreToCamelCase: true #加上驼峰命名的配置，才能将audit_id的值映射到auditId
