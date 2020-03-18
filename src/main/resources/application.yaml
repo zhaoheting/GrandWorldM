@@ -6,7 +6,7 @@ logging:
   level:
     com:
       looedu:
-        mapper: trace
+        mapper: debug
 spring:
   datasource:
       driverClassName: oracle.jdbc.OracleDriver
