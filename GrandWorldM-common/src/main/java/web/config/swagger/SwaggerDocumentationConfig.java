@@ -35,7 +35,7 @@ public class SwaggerDocumentationConfig {
                 .pathMapping("/")
                 .select()// 选择那些路径和api会生成document
                 .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.example.GrandWorldM.controllers.interfaces"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.GrandWorldM.web.controllers.interfaces"))
                 .build();
     }
 }
