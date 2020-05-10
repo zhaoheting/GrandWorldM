@@ -1,4 +1,4 @@
-package com.example.GrandWorldM.controllers.interfaces;
+package web.controllers.interfaces;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

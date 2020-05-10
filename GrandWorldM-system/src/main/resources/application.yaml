@@ -3,10 +3,17 @@ server:
 #代码里若想零配置，则yaml文件里面必须这样写；
 logging:
   level:
-    com:
-      looedu:
-        mapper: debug
+    org:
+      springframework:
+        security: INFO
 spring:
+  security:
+    user:
+      name: user
+      password: user
+      roles:  admin
+  application:
+    name: GrandWorldM-system
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/zhtdb?characterEncoding=utf8
@@ -54,6 +61,10 @@ spring:
         # 登录用户名/密码
         login-username: root
         login-password: 123
+  #是否允许覆盖spring放在ioc容器的对象
+  main:
+    allow-bean-definition-overriding: true
+
 #  jpa:
 #    properties:
 #      hibernate:
@@ -98,3 +109,5 @@ spring:
 #              # 登录用户名/密码
 #              login-username: root
 #              login-password: 123
+
+

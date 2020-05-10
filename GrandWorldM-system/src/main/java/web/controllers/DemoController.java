@@ -1,13 +1,13 @@
-package com.example.GrandWorldM.controllers;
+package web.controllers;
 
-import com.example.GrandWorldM.controllers.interfaces.DemoApi;
 import org.springframework.web.bind.annotation.RestController;
+import web.controllers.interfaces.DemoApi;
 
 @RestController
 public class DemoController implements DemoApi {
 
     @Override
-    public String hello(){
+    public String hello() {
         return "hello";
     }
 }
