@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 #代码里若想零配置，则yaml文件里面必须这样写；
 logging:
   level:
@@ -7,6 +7,17 @@ logging:
       springframework:
         security: INFO
 spring:
+  thymeleaf:
+    prefix: classpath:/public/
+    mode: HTML
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+  jpa:
+    hibernate:
+      ddl-auto: update
   security:
     user:
       name: user
