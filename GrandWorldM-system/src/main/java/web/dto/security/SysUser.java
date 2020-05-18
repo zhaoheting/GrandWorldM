@@ -1,4 +1,4 @@
-package web.dto;
+package web.dto.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

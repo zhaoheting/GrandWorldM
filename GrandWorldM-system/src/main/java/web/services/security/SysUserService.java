@@ -1,9 +1,9 @@
-package web.services;
+package web.services.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import web.dto.SysUser;
-import web.repositories.SysUserRepository;
+import web.dto.security.SysUser;
+import web.repositories.security.SysUserRepository;
 
 @Service
 public class SysUserService {

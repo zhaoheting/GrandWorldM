@@ -1,4 +1,4 @@
-package web.dto;
+package web.dto.security;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

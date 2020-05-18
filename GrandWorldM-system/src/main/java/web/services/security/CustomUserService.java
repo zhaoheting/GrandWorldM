@@ -1,11 +1,11 @@
-package web.services;
+package web.services.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import web.dto.SysUser;
-import web.repositories.SysUserRepository;
+import web.dto.security.SysUser;
+import web.repositories.security.SysUserRepository;
 
 public class CustomUserService implements UserDetailsService {
 
@@ -20,7 +20,5 @@ public class CustomUserService implements UserDetailsService {
         }
         return sysUser;
     }
-
-
 }
 

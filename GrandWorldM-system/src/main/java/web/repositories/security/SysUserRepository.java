@@ -1,7 +1,7 @@
-package web.repositories;
+package web.repositories.security;
 
 import org.springframework.stereotype.Repository;
-import web.dto.SysUser;
+import web.dto.security.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
