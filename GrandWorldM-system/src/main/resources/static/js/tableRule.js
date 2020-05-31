@@ -1,4 +1,3 @@
-window.onload = function(){
     var vue = new Vue({
         el:'#ruleDiv',
         data:{
@@ -23,7 +22,6 @@ window.onload = function(){
             }
         }
     });
-}
 
 
 //function getTableRuleList(){

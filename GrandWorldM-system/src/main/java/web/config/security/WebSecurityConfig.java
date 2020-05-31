@@ -47,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()//Or Cross-site request forgery will be enabled.
                 .authorizeRequests()
                 .antMatchers("/auth/**","/js/**","/css/**").permitAll()//Or the js and css can't be used.
-                .antMatchers("/index").authenticated()
-                .anyRequest().permitAll()
+//                .antMatchers("/index").authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
