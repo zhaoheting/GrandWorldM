@@ -27,7 +27,8 @@ spring:
     name: GrandWorldM-system
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/zhtdb?characterEncoding=utf8
+    url: jdbc:mysql://192.168.23.0:3306/mysql?characterEncoding=utf8
+#    url: jdbc:mysql://127.0.0.1:3306/zhtdb?characterEncoding=utf8
     username: root
     password: root
     # 下面为接池的种类
