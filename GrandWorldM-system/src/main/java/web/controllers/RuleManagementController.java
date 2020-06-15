@@ -19,6 +19,11 @@ public class RuleManagementController implements RuleManagementApi {
     @Override
     public ResponseEntity<List> getTableRule() {
         List<TableRule> tableRuleList = ruleManagementService.getTableRuleList();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(tableRuleList);
     }
 }

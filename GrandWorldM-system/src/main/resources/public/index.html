@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
     <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-    <script type="text/javascript" src="../js/tableRule.js"></script>
-    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
     <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+    <script type="text/javascript" src="js/jqueryBlockUI.js"></script>
+
 </head>
 <body>
 <h1 class="text-center">index</h1>
@@ -39,7 +40,7 @@
         </div>
 
         <div class="col-sm-3">
-            <input type="button" @click="getTableRuleList()" value="Submit">
+            <button type="button" class="btn btn-default" @click="getTableRuleList()" value="Submit"/>
         </div>
     </div>
     <div>
@@ -60,4 +61,6 @@
     </div>
 </div>
 </body>
+
+<script type="text/javascript" src="../js/tableRule.js"></script>
 </html>
