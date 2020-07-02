@@ -13,8 +13,11 @@ import java.util.List;
 @RestController
 public class RuleManagementController implements RuleManagementApi {
 
-    @Autowired
     RuleManagementService ruleManagementService;
+
+    public RuleManagementController(RuleManagementService ruleManagementService) {
+        this.ruleManagementService = ruleManagementService;
+    }
 
     @Override
     public ResponseEntity<List> getTableRule() {

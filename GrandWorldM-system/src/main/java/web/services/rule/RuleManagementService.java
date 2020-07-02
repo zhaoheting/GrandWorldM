@@ -16,6 +16,7 @@ public class RuleManagementService {
     }
 
     public List<TableRule> getTableRuleList(){
+
         return tableRuleRepository.findAll();
     }
 }
