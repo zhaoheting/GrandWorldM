@@ -26,6 +26,7 @@ public class CollectionsService {
         for (String string : stringList) {
             System.out.println(string);
         }
+
     }
 
     public void removeElementEveryTwo() {
