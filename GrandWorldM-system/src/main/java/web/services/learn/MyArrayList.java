@@ -1,6 +1,7 @@
 package web.services.learn;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyArrayList<E> implements Iterable<E> {
 
@@ -89,7 +90,7 @@ public class MyArrayList<E> implements Iterable<E> {
         return new ArrayListIterator();
     }
 
-    class ArrayListIterator implements Iterator<E> {
+    private class ArrayListIterator implements Iterator<E> {
 
         private int currentIndex;
 
@@ -99,13 +100,17 @@ public class MyArrayList<E> implements Iterable<E> {
         }
 
         @Override
-        public Object next() {
-            return null;
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return theItems[currentIndex++];
         }
 
         @Override
         public void remove() {
-
+            //为什么要--，iterator中的remove方法难道都得在next()方法之后调用么？
+            MyArrayList.this.remove(--currentIndex);
         }
     }
 }
