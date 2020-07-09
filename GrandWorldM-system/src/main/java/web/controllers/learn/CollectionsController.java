@@ -16,6 +16,5 @@ public class CollectionsController {
 
     @RequestMapping("/iterator")
     public void testIterator() {
-        collectionsService.removeElementEveryTwo();
     }
 }

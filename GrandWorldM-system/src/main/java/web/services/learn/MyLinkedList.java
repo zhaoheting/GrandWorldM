@@ -2,6 +2,7 @@ package web.services.learn;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<E> implements Iterable<E> {
 
@@ -58,7 +59,14 @@ public class MyLinkedList<E> implements Iterable<E> {
 
     public E remove(int index) {
         Node<E> node = getNode(index);
-        node.previous.next =node.next;
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+        modCount--;
+        return node.data;
+    }
+
+    public E remove(Node<E> node) {
+        node.previous.next = node.next;
         node.next.previous = node.previous;
         modCount--;
         return node.data;
@@ -99,10 +107,12 @@ public class MyLinkedList<E> implements Iterable<E> {
     class LinkedListIterator implements Iterator<E> {
 
         private int expectedModCount = MyLinkedList.this.modCount;
+        private boolean okToRemove = false;//?
+        private Node<E> current = beginMarker.next;
 
         @Override
         public boolean hasNext() {
-            return false;
+            return current != endMarker;
         }
 
         @Override
@@ -110,7 +120,13 @@ public class MyLinkedList<E> implements Iterable<E> {
             if (!checkModCount()) {
                 throw new ConcurrentModificationException();
             }
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            E data = current.data;
+            current = current.next;
+            okToRemove = true;//?
+            return data;
         }
 
         @Override
@@ -118,6 +134,12 @@ public class MyLinkedList<E> implements Iterable<E> {
             if (!checkModCount()) {
                 throw new ConcurrentModificationException();
             }
+            if (!okToRemove) {
+                throw new IllegalStateException();
+            }
+            MyLinkedList.this.remove(current.previous);
+            modCount++;
+            okToRemove = false;//?
         }
 
         boolean checkModCount() {
