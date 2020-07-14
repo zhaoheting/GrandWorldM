@@ -11,6 +11,10 @@ public class MyArrayList<E> implements Iterable<E> {
     //theItems.length means the size of the array,some elements may be null.
     private E[] theItems;
 
+    public MyArrayList() {
+        doClear();
+    }
+
     public void clear() {
         doClear();
     }

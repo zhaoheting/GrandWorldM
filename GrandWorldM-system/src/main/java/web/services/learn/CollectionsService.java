@@ -8,8 +8,20 @@ import java.util.*;
 public class CollectionsService {
 
     public static void main(String[] args) {
-        new CollectionsService().test();
-
+        PostfixExpression postfixExpression = new PostfixExpression();
+        postfixExpression.add(6);
+        postfixExpression.add(5);
+        postfixExpression.add(2);
+        postfixExpression.add(3);
+        postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.ADD);
+        postfixExpression.add(8);
+        postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.MULTIPLY);
+        postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.ADD);
+        postfixExpression.add(3);
+        postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.ADD);
+        postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.MULTIPLY);
+        double result = postfixExpression.getResult();
+        System.out.println(result);
     }
 
 
