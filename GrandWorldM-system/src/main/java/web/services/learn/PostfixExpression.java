@@ -2,6 +2,9 @@ package web.services.learn;
 
 import java.util.Stack;
 
+/**
+ * Calculate postfix expression.
+ */
 public class PostfixExpression {
 
     private Stack<Double> expressions;
