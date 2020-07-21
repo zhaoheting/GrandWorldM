@@ -32,6 +32,8 @@ public class ThreePointOne<E> {
             if (currentIndex == position) {//In case of the while loop is interrupted when the position is beyond the size of the element list.
                 System.out.println("Looking for position: " + position);
                 System.out.println(element);
+            } else {
+                throw new RuntimeException("The list doesn't has the element at this position: " + position);
             }
 
         }
@@ -48,7 +50,7 @@ public class ThreePointOne<E> {
         elementList.add(26);
         List<Integer> positionList = new ArrayList<>();
         positionList.add(1);
-        positionList.add(16);
+        positionList.add(6);
         new ThreePointOne<Integer>().printLots(elementList, positionList);
     }
 }
