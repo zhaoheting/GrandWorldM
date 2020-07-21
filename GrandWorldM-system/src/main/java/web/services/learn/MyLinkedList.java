@@ -2,6 +2,7 @@ package web.services.learn;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class MyLinkedList<E> implements Iterable<E> {
@@ -37,7 +38,26 @@ public class MyLinkedList<E> implements Iterable<E> {
     }
 
     public boolean add(E data) {
-        return add(size(), data);
+        linkLast(data);
+        return true;
+    }
+
+    /**
+     * Links e as last element.
+     */
+    void linkLast(E e) {
+        if(size() == 0){
+            Node<E> newNode = new Node(e, beginMarker, endMarker);
+            beginMarker.next = newNode;
+            endMarker.previous = newNode;
+        }else{
+            Node lastNode = endMarker.previous;
+            final Node<E> newNode = new Node(e, lastNode, endMarker);
+            lastNode.next = newNode;
+            endMarker.previous = newNode;
+        }
+        theSize++;
+        modCount++;
     }
 
     public boolean add(int index, E data) {
@@ -72,7 +92,7 @@ public class MyLinkedList<E> implements Iterable<E> {
         return node.data;
     }
 
-    private Node<E> getNode(int index) {
+    public Node<E> getNode(int index) {
         if (index > size() - 1 || index < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -147,15 +167,15 @@ public class MyLinkedList<E> implements Iterable<E> {
         }
     }
 
-    private static class Node<E> {
+    public static class Node<E> {
 
         public Node<E> previous;
         public Node<E> next;
         public E data;
 
         public Node(E data, Node<E> p, Node<E> n) {
-            this.previous = previous;
-            this.next = next;
+            this.previous = p;
+            this.next = n;
             this.data = data;
         }
     }

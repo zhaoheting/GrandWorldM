@@ -1,7 +1,5 @@
 package web.services.learn.exercises;
 
-import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
