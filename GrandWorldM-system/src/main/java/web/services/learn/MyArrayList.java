@@ -1,5 +1,6 @@
 package web.services.learn;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -41,7 +42,7 @@ public class MyArrayList<E> implements Iterable<E> {
             //The +1 is used in case the size is zero.
             ensureCapacity(theSize * 2 + 1);
         }
-        for (int i = theItems.length; i > index; i--) {
+        for (int i = theSize; i > index; i--) {
             theItems[i] = theItems[i - 1];
         }
         theItems[index] = e;
