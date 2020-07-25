@@ -38,32 +38,12 @@ public class MyLinkedList<E> implements Iterable<E> {
     }
 
     public boolean add(E data) {
-        linkLast(data);
+        add(size(), data);
         return true;
     }
 
-    /**
-     * Links e as last element.
-     */
-    void linkLast(E e) {
-        if(size() == 0){
-            Node<E> newNode = new Node(e, beginMarker, endMarker);
-            beginMarker.next = newNode;
-            endMarker.previous = newNode;
-        }else{
-            Node lastNode = endMarker.previous;
-            final Node<E> newNode = new Node(e, lastNode, endMarker);
-            lastNode.next = newNode;
-            endMarker.previous = newNode;
-        }
-        theSize++;
-        modCount++;
-    }
-
-    public boolean add(int index, E data) {
-        addBefore(data, getNode(index));
-        modCount++;
-        return true;
+    public void add(int index, E data) {
+        addBefore(data, getNode(index, 0, size()));
     }
 
     public E get(int index) {
@@ -92,14 +72,32 @@ public class MyLinkedList<E> implements Iterable<E> {
         return node.data;
     }
 
+    /**
+     * This method is used by method {@code get()}, the the upper should be size-1.
+     *
+     * @param index
+     * @return
+     */
     public Node<E> getNode(int index) {
-        if (index > size() - 1 || index < 0) {
+        return getNode(index, 0, size() - 1);
+    }
+
+    /**
+     * When it is called by add method ,the upper should be set as size instead of size-1.
+     *
+     * @param index
+     * @param lower
+     * @param upper
+     * @return
+     */
+    public Node<E> getNode(int index, int lower, int upper) {
+        if (index < lower || index > upper) {
             throw new IndexOutOfBoundsException();
         }
         Node currentNode;
         if (index < size() / 2) {
             currentNode = beginMarker.next;
-            for (int i = 0; i <= index; i++) {
+            for (int i = 0; i < index; i++) {
                 currentNode = currentNode.next;
             }
         } else {
