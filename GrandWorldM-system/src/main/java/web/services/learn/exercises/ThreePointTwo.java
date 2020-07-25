@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * i: Swap two adjacent cells using a single linked list.
  * ii: Swap two adjacent cells using two linked lists.
  */
 public class ThreePointTwo<E> extends MyLinkedList {
