@@ -46,6 +46,20 @@ public class MyLinkedList<E> implements Iterable<E> {
         addBefore(data, getNode(index, 0, size()));
     }
 
+    /**
+     * Exercise 3.3
+     *
+     * @param o
+     * @return
+     */
+    public boolean contains(E o) {
+        Node<E> currentNode = beginMarker.next;
+        while (currentNode != endMarker && !currentNode.data.equals(o)) {
+            currentNode = currentNode.next;
+        }
+        return currentNode != endMarker;
+    }
+
     public E get(int index) {
         return getNode(index).data;
     }
