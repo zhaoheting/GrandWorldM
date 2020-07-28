@@ -1,4 +1,4 @@
-package web.services.learn.exercises;
+package web.services.learn.exercises.three;
 
 import java.util.ArrayList;
 import java.util.Iterator;

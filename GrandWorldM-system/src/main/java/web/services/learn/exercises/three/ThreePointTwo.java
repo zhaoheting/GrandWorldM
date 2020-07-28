@@ -1,10 +1,8 @@
-package web.services.learn.exercises;
+package web.services.learn.exercises.three;
 
 import web.services.learn.MyLinkedList;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * ii: Swap two adjacent cells using two linked lists.
