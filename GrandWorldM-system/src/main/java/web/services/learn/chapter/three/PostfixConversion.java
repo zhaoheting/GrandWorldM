@@ -1,4 +1,4 @@
-package web.services.learn;
+package web.services.learn.chapter.three;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 

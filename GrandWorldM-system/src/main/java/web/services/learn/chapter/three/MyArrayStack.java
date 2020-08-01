@@ -1,4 +1,4 @@
-package web.services.learn;
+package web.services.learn.chapter.three;
 
 public class MyArrayStack<E> {
     private static final int DEFAULT_CAPACITY=10;

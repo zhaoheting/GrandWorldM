@@ -1,6 +1,6 @@
 package web.services.learn.exercises.three;
 
-import web.services.learn.MyLinkedList;
+import web.services.learn.chapter.three.MyLinkedList;
 
 import java.util.Iterator;
 

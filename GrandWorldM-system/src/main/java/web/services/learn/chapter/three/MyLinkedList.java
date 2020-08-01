@@ -1,8 +1,7 @@
-package web.services.learn;
+package web.services.learn.chapter.three;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class MyLinkedList<E> implements Iterable<E> {

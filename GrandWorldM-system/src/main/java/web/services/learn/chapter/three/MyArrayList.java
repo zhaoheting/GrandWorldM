@@ -1,6 +1,5 @@
-package web.services.learn;
+package web.services.learn.chapter.three;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
