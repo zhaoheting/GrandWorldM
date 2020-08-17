@@ -3,7 +3,7 @@ package web.services.learn.chapter.two;
 /**
  * 欧几里德算法求最大公约数。
  */
-public class CalculationGcd {
+public class CalculateGcd {
 
     private long gcd(long m, long n) {
         while (n != 0) {
@@ -15,7 +15,7 @@ public class CalculationGcd {
     }
 
     public static void main(String[] args) {
-        CalculationGcd calculationGcd = new CalculationGcd();
+        CalculateGcd calculationGcd = new CalculateGcd();
         System.out.println(calculationGcd.gcd(33,95));
     }
 }
