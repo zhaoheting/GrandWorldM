@@ -1,8 +1,5 @@
 package web.services.learn.chapter.four;
 
-import com.alibaba.druid.sql.visitor.functions.Bin;
-import org.hibernate.type.AnyType;
-
 /**
  * The property that makes a binary tree into binary search tree is that for every node X, in the tree
  * the values of all the items in the left subtree are smaller than value of X, and the values of
@@ -75,6 +72,38 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return node;
     }
 
+    public BinaryNode<AnyType> insert(AnyType x) {
+        return insert(x, root);
+    }
+
+    /**
+     * Insert x into a binary search tree root with node.
+     *
+     * @param x
+     * @param node The root node of a binary search tree.
+     * @return
+     */
+    private BinaryNode<AnyType> insert(AnyType x, BinaryNode<AnyType> node) {
+        if (node == null) {
+            //节点为空的情况是递归的边界情况，每个insert操作都会终止于当前node为空时。
+            BinaryNode<AnyType> root = new BinaryNode<>(x);
+        } else {
+            int compareResult = x.compareTo(node.element);
+            if (compareResult < 0) {
+                node.left = insert(x, node.left);
+            } else if (compareResult > 0) {
+                node.right = insert(x, node.right);
+            } else {
+                //如果现已在tree中，则将记录出现次数的field自增1。
+                //有的情况下compareTo()方法的结果为零并不能代表这两个数据是完全一致的，同一个数据。它们可能只是该方法关注的那个比较条件
+                //一样，此时我们可以把这两个对象放到同一个辅助数据结构中，比如说list或者一个新的空树，然后把这个辅助数据结构放到当前节点上。
+                //比如hashmap解决哈希冲突的算法，就是这样一个逻辑。
+                node.occurrence++;
+            }
+        }
+        return root;
+    }
+
     /**
      * Node definition of tree.
      *
@@ -85,11 +114,19 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         AnyType element;
         BinaryNode<AnyType> left;
         BinaryNode<AnyType> right;
+        //优化，记录树中该节点出现次数。
+        int occurrence;
 
-        public BinaryNode(AnyType element, BinaryNode<AnyType> left, BinaryNode<AnyType> right) {
+        public BinaryNode(AnyType element) {
+            this(element, null, null, 1);
+        }
+
+        private BinaryNode(AnyType element, BinaryNode<AnyType> left,
+                           BinaryNode<AnyType> right, int occurrence) {
             this.element = element;
             this.left = left;
             this.right = right;
+            this.occurrence = occurrence;
         }
     }
 }
