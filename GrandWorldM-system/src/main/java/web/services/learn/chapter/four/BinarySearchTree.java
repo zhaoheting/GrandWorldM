@@ -51,21 +51,15 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      * @return
      */
     public BinaryNode<AnyType> findMin(BinaryNode<AnyType> node) {
-        if (node == null) {
-            throw new RuntimeException("The tree is null, can't find x.");
-        } else {
-            BinaryNode<AnyType> leftChild = node.left;
-            min= node.left;
-            if (leftChild == null) {
-                if(node.occurrence >= 1){
-                    min = node;
-                    return min;
-                }else {
-                    return null;
-                }
-            } else {
-                return findMin(leftChild);
+        if (node != null) {
+            //左子树找到最小的节点。（不一定没有被懒惰删除）
+            findMin(node.left);
+            //左子树找到的最小值，没有被懒惰删除，就返回
+            if (node.occurrence != 0 && min == null) {
+
             }
+            //左子树没找到最小值，到右子树找。右子树找不到则沿递归路线，向上找。
+
         }
     }
 
