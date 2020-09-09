@@ -51,36 +51,42 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      * @return
      */
     public BinaryNode<AnyType> findMin(BinaryNode<AnyType> node) {
-//        if(node == null){
-//            return null;
-//        } else {
-//            BinaryNode<AnyType> leftChild = node.left;
-//            if (leftChild == null) {
-//                return node;
-//            } else {
-//                return findMin(leftChild);
-//            }
-//        }
-        //优化后的代码
-        if (node != null && node.left != null) {
-            return findMin(node.left);
+        if (node == null) {
+            throw new RuntimeException("The tree is null, can't find x.");
+        } else {
+            BinaryNode<AnyType> leftChild = node.left;
+            min= node.left;
+            if (leftChild == null) {
+                if(node.occurrence >= 1){
+                    min = node;
+                    return min;
+                }else {
+                    return null;
+                }
+            } else {
+                return findMin(leftChild);
+            }
         }
-        return node;
     }
 
     /**
-     * Replace tail recursion with a while loop.
+     * Find maximum using tail recursion.
      *
      * @param node
      * @return
      */
     public BinaryNode<AnyType> findMax(BinaryNode<AnyType> node) {
-        if (node != null) {
-            while (node.right != null) {
-                node = node.right;
+        if (node == null) {
+            throw new RuntimeException("The tree is null, can't find x.");
+        } else {
+            BinaryNode<AnyType> rightChild = node.right;
+            if (rightChild == null) {
+                max = node;
+                return max;
+            } else {
+                return findMax(rightChild);
             }
         }
-        return node;
     }
 
     public BinaryNode<AnyType> insert(AnyType x) {
@@ -124,23 +130,23 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      *
      * @return
      */
-    private BinaryNode<AnyType> removeNode(AnyType x, BinaryNode<AnyType> node) {
+    private BinaryNode<AnyType> removeDiligent(AnyType x, BinaryNode<AnyType> node) {
         if (node == null) {
-            throw new RuntimeException("The tree is null, can't find x.");
+            throw new RuntimeException("Can't find x.");
         }
         int comparedResult = x.compareTo(node.element);
         if (comparedResult < 0) {
-            removeNode(x, node.left);
+            removeDiligent(x, node.left);
         } else if (comparedResult > 0) {
-            removeNode(x, node.right);
+            removeDiligent(x, node.right);
         } else {
             /**
              * 当前找到的节点，既有左子树，也有右子树。
              */
             if (node.left != null && node.right != null) {
 
-            }else {//包含了当前节点是叶子，以及当前节点只有一个子节点的情况。
-                node = (node.left != null) ? node.left: node.right;
+            } else {//包含了当前节点是叶子，以及当前节点只有一个子节点的情况。
+                node = (node.left != null) ? node.left : node.right;
             }
         }
     }
@@ -155,8 +161,68 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      * @param node
      * @return
      */
-    private BinaryNode<AnyType> remove(AnyType x, BinaryNode<AnyType> node) {
+    private BinaryNode<AnyType> removeLazy(AnyType x, BinaryNode<AnyType> node) {
 
+        if (node == null) {
+            //若递归终止于此，则证明当前树中没有要删除的节点。
+            throw new RuntimeException("The tree don't has such a node.");
+        }
+        AnyType currentEle = node.element;
+        if (currentEle == null) {
+            throw new RuntimeException("Current node is empty.");
+        }
+        int compareResult = x.compareTo(currentEle);
+        if (compareResult < 0) {
+            return removeLazy(x, node.left);
+        } else if (compareResult > 0) {
+            return removeLazy(x, node.right);
+        } else {
+            int currentOccur = node.occurrence;
+            if (currentOccur >= 1) {
+                currentOccur--;
+            } else {
+                throw new RuntimeException("The tree don't has such a node.");
+            }
+            return node;
+        }
+    }
+
+    /**
+     * Remove all the nodes whose occurrence is 0.
+     *
+     * @param node
+     */
+    private void removeDeletedNodes(BinaryNode<AnyType> node) {
+        if (node != null) {
+            BinaryNode<AnyType> leftNode = node.left;
+            BinaryNode<AnyType> rightNode = node.right;
+            if (node.occurrence == 0) {
+                //当前找到的节点，既有左子树，也有右子树。
+                if (leftNode != null && rightNode != null) {
+                    //当前节点删除
+                    node.element = findMin(rightNode).element;
+                    node.occurrence = 1;
+                    //懒惰删除右子树中的替换节点，稍后递归彻底删除。
+                    removeLazy(node.element, rightNode);
+                    removeDeletedNodes(node);
+                } else {//包含了当前节点是叶子，以及当前节点只有一个子节点的情况。
+                    node = (leftNode != null) ? leftNode : rightNode;
+                    removeDeletedNodes(node);
+                }
+            } else {
+                removeDeletedNodes(leftNode);
+                removeDeletedNodes(rightNode);
+            }
+        }
+    }
+
+    /**
+     * Delete the nodes that whose occurrence is 0 when the theSize and the deletedSize of the tree is equal.
+     */
+    private void checkDeletion() {
+        if (theSize == deletedSize) {
+            removeDeletedNodes(root);
+        }
     }
 
     /**
@@ -171,23 +237,21 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         BinaryNode<AnyType> right;
         //优化，记录树中该节点出现次数。
         int occurrence;
-        int deleteFlag;
 
         public BinaryNode(AnyType element) {
-            this(element, null, null, 1, 1);
+            this(element, null, null, 1);
         }
 
         public BinaryNode(AnyType element, BinaryNode<AnyType> left, BinaryNode<AnyType> right) {
-            this(element, left, right, 1, 1);
+            this(element, left, right, 1);
         }
 
         private BinaryNode(AnyType element, BinaryNode<AnyType> left,
-                           BinaryNode<AnyType> right, int occurrence, int deleteFlag) {
+                           BinaryNode<AnyType> right, int occurrence) {
             this.element = element;
             this.left = left;
             this.right = right;
             this.occurrence = occurrence;
-            this.deleteFlag = deleteFlag;
         }
     }
 }
