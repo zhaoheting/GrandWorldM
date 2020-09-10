@@ -30,18 +30,8 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return contains(x, root);
     }
 
-    private boolean contains(AnyType x, BinaryNode<AnyType> node) {
-        if (node == null) {
-            return false;
-        }
-        int compareResult = x.compareTo(node.element);
-        if (compareResult > 0) {
-            return contains(x, node.right);
-        } else if (compareResult < 0) {
-            return contains(x, node.left);
-        } else {
-            return true;
-        }
+    public BinaryNode<AnyType> insert(AnyType x) {
+        return insert(x, root);
     }
 
     /**
@@ -56,11 +46,13 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
             findMin(node.left);
             //左子树找到的最小值，没有被懒惰删除，就返回
             if (node.occurrence != 0 && min == null) {
-
+                min = node;
+                return min;
             }
             //左子树没找到最小值，到右子树找。右子树找不到则沿递归路线，向上找。
-
+            findMin(node.right);
         }
+        return min;
     }
 
     /**
@@ -70,21 +62,42 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      * @return
      */
     public BinaryNode<AnyType> findMax(BinaryNode<AnyType> node) {
-        if (node == null) {
-            throw new RuntimeException("The tree is null, can't find x.");
-        } else {
-            BinaryNode<AnyType> rightChild = node.right;
-            if (rightChild == null) {
+        if (node != null) {
+            //右子树找到最大的节点。（不一定没有被懒惰删除）
+            findMax(node.right);
+            //右子树找到的最大值，没有被懒惰删除，就返回
+            if (node.occurrence != 0 && max == null) {
                 max = node;
                 return max;
-            } else {
-                return findMax(rightChild);
             }
+            //右子树没有找到的最大值，到左子树找。左子树找不到则沿递归路线，向上找。
+            findMax(node.left);
         }
+        return max;
     }
 
-    public BinaryNode<AnyType> insert(AnyType x) {
-        return insert(x, root);
+    /**
+     * Lazy delete the node whose element is x.
+     *
+     * @param x
+     * @return
+     */
+    public BinaryNode<AnyType> remove(AnyType x) {
+        return removeLazy(x, root);
+    }
+    
+    private boolean contains(AnyType x, BinaryNode<AnyType> node) {
+        if (node == null) {
+            return false;
+        }
+        int compareResult = x.compareTo(node.element);
+        if (compareResult > 0) {
+            return contains(x, node.right);
+        } else if (compareResult < 0) {
+            return contains(x, node.left);
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -115,36 +128,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return node;
     }
 
-    public BinaryNode<AnyType> remove(AnyType x) {
-
-    }
-
-    /**
-     * A inefficient way to remove,comparing with lazy deletion.
-     *
-     * @return
-     */
-    private BinaryNode<AnyType> removeDiligent(AnyType x, BinaryNode<AnyType> node) {
-        if (node == null) {
-            throw new RuntimeException("Can't find x.");
-        }
-        int comparedResult = x.compareTo(node.element);
-        if (comparedResult < 0) {
-            removeDiligent(x, node.left);
-        } else if (comparedResult > 0) {
-            removeDiligent(x, node.right);
-        } else {
-            /**
-             * 当前找到的节点，既有左子树，也有右子树。
-             */
-            if (node.left != null && node.right != null) {
-
-            } else {//包含了当前节点是叶子，以及当前节点只有一个子节点的情况。
-                node = (node.left != null) ? node.left : node.right;
-            }
-        }
-    }
-
     /**
      * Lazy deletion.
      * 懒惰删除（英文：lazy deletion）指的是从一个散列表（也称哈希表）中删除元素的一种方法。
@@ -156,7 +139,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
      * @return
      */
     private BinaryNode<AnyType> removeLazy(AnyType x, BinaryNode<AnyType> node) {
-
+        checkDeletion();
         if (node == null) {
             //若递归终止于此，则证明当前树中没有要删除的节点。
             throw new RuntimeException("The tree don't has such a node.");
@@ -194,16 +177,24 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
                 //当前找到的节点，既有左子树，也有右子树。
                 if (leftNode != null && rightNode != null) {
                     //当前节点删除
-                    node.element = findMin(rightNode).element;
-                    node.occurrence = 1;
-                    //懒惰删除右子树中的替换节点，稍后递归彻底删除。
-                    removeLazy(node.element, rightNode);
-                    removeDeletedNodes(node);
+                    min = null;
+                    findMin(rightNode);
+                    //All the nodes in the right tree have been deleted.
+                    if (min == null) {
+                        node.right = null;
+                        removeDeletedNodes(node);
+                    } else {
+                        node.element = min.element;
+                        node.occurrence = 1;
+                        //懒惰删除右子树中的替换节点，then递归彻底删除。
+                        min.occurrence = 0;
+                        removeDeletedNodes(node);
+                    }
                 } else {//包含了当前节点是叶子，以及当前节点只有一个子节点的情况。
                     node = (leftNode != null) ? leftNode : rightNode;
                     removeDeletedNodes(node);
                 }
-            } else {
+            } else {// 不需要删除的节点,直接进入左右子树
                 removeDeletedNodes(leftNode);
                 removeDeletedNodes(rightNode);
             }
