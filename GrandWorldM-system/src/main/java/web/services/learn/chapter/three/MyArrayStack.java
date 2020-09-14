@@ -1,7 +1,12 @@
 package web.services.learn.chapter.three;
 
+/**
+ * 网上查找的基于数组实现栈。
+ *
+ * @param <E>
+ */
 public class MyArrayStack<E> {
-    private static final int DEFAULT_CAPACITY=10;
+    private static final int DEFAULT_CAPACITY = 10;
     private E[] theItems;
     private int theSize;
 
@@ -29,7 +34,7 @@ public class MyArrayStack<E> {
     }
 
     public void push(E e) {
-        ensureCapacity(size()*2+1);
+        ensureCapacity(size() * 2 + 1);
         theItems[theSize++] = e;
     }
 
@@ -38,6 +43,6 @@ public class MyArrayStack<E> {
     }
 
     public E top() {
-        return theItems[theSize-1];
+        return theItems[theSize - 1];
     }
 }
