@@ -1,38 +1,47 @@
 package web.services.learn.lessons.exercises;
 
-import org.omg.CORBA.Any;
-
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * 基于LinkedList实现栈，自己编写的代码。
+ * 基于单链表实现栈，自己编写的代码。
  */
 public class ListStack<AnyType> {
 
-    List<AnyType> items;
-    private int head = -1;
-
-    public ListStack() {
-        items = new LinkedList<>();
-    }
+    private Node<AnyType> head;
+    private int size;
 
     public void push(AnyType element) {
-        items.add(element);
-        head++;
+        head = new Node<>(element, head);
+        size++;
     }
 
     public AnyType pop() {
-        AnyType currentElement = items.remove(head);
-        head--;
-        return currentElement;
+        if (isEmpty()) {
+            throw new RuntimeException("栈是空的!");
+        }
+        AnyType element = head.element;
+        head = head.next;
+        size--;
+        return element;
     }
 
-    public int size(){
-        return items.size();
+    private boolean isEmpty() {
+        return head == null;
+    }
+
+    public int size() {
+        return this.size;
     }
 
     public AnyType top() {
-        return items.get(head);
+        return head.element;
+    }
+
+    private static class Node<E> {
+        public E element;
+        public Node<E> next;
+
+        public Node(E element, Node<E> next) {
+            this.element = element;
+            this.next = next;
+        }
     }
 }
