@@ -39,10 +39,10 @@ public class SingleListQueue<AnyType> {
     }
 
     private class Node<E> {
-        public E element;
-        public Node<E> next;
+        private E element;
+        private Node<E> next;
 
-        public Node(E element, Node<E> next) {
+        private Node(E element, Node<E> next) {
             this.element = element;
             this.next = next;
         }
