@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 /**
  * 基于双向链表实现队列。--与单链表基本类似。

@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 public interface MyStack<E> {
     public void push(E e);

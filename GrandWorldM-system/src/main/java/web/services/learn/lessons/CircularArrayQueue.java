@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 /**
  * 基于数组实现的环形队列。

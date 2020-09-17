@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 /**
  * 基于单链表实现栈，自己编写的代码。

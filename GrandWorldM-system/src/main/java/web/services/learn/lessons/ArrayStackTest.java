@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 public class ArrayStackTest {
     public static void main(String[] args) {

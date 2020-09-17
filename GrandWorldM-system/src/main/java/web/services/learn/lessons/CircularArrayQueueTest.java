@@ -1,4 +1,4 @@
-package web.services.learn.lessons.exercises;
+package web.services.learn.lessons;
 
 public class CircularArrayQueueTest {
     public static void main(String[] args) {
