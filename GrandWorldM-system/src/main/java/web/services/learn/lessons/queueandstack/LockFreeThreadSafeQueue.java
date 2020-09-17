@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.queueandstack;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;

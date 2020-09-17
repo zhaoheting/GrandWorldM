@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.queueandstack;
 
 /**
  * 因为栈的入栈和出栈操作都是针对一个位置（栈顶）进行的，所以其只需要一个栈顶的哨兵节点即可。

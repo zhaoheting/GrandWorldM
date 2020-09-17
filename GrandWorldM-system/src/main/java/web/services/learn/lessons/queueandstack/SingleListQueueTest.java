@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.queueandstack;
 
 public class SingleListQueueTest {
     public static void main(String[] args) {

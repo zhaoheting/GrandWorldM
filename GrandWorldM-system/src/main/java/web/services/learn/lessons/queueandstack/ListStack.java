@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.queueandstack;
 
 /**
  * 基于单链表实现栈，自己编写的代码。

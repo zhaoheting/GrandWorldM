@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.queueandstack;
 
 /**
  * 基于数组实现栈，要求可以自动扩容，自己编写的代码，不一定对。
