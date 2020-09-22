@@ -5,29 +5,33 @@ package web.services.learn.lessons.sort;
  */
 public class MergeSort {
     public static void main(String[] args) {
-        int[] a = new int[]{5, 3, 6, 7, 2, 4, 9};
-        mergeSort(a, 0, a.length - 1);
+        int[] a = new int[]{5, 3, 6, 7, 2, 4, 9, 1};
+        sort(a);
         for (int n : a) {
             System.out.println(n);
         }
+    }
+
+    private static void sort(int[] a) {
+        mergeSort(a, 0, a.length - 1);
     }
 
     private static void mergeSort(int[] a, int start, int end) {
         if (start >= end) {
             return;
         }
-        int mid = start + (end - start) / 2;
+        int mid = (end + start) / 2;
         mergeSort(a, start, mid);
         mergeSort(a, mid + 1, end);
-        combine(a, start, end);
+        //当start和end之间只有两个元素时，调用combine函数就直接比较出了大小顺序。所以真正的排序发生在combine函数中。
+        combine(a, start, mid, end);
     }
 
     /**
      * Combine sorted array left and right into a.
      */
-    private static void combine(int[] a, int start, int end) {
-        int length = end - start + 1;
-        int mid = start + length / 2;
+    private static void combine(int[] a, int start, int mid, int end) {
+        //将start到end之间的元素拆分到两个数组中。
         int[] left = new int[mid - start + 1];
         int[] right = new int[end - mid];
         for (int i = 0; i < mid - start + 1; i++) {
@@ -36,7 +40,7 @@ public class MergeSort {
         for (int j = 0; j < end - mid; j++) {
             right[j] = a[mid + j + 1];
         }
-
+        //将拆分的两个数组中的元素按照大小放入a中。
         int m = 0, n = 0, t = start;
         while (m < mid - start + 1 && n < end - mid) {
             if (left[m] < right[n]) {
@@ -45,6 +49,7 @@ public class MergeSort {
                 a[t++] = right[n++];
             }
         }
+        //若其中一个数组的元素已经被全部放入a中，则另外一个数组中的元素一次性取出。
         if (m == mid - start + 1) {
             for (int d = n; d < end - mid; d++) {
                 a[t++] = right[d];
