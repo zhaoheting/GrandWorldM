@@ -1,7 +1,8 @@
 package web.services.learn.lessons.sort;
 
 /**
- * 计数排序
+ * 计数排序。
+ * 计数排序只能给非负整数排序，如果要排序的数据是其他类型的，要将其在不改变相对大小的情况下，转化为非负整数。
  */
 public class CountingSort {
 
