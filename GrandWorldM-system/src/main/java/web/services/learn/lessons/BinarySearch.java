@@ -60,5 +60,4 @@ public class BinarySearch {
         int[] a = new int[]{3, 5, 6, 7, 9, 33, 55, 65, 76, 87, 99};
         System.out.println(searchByRecursion(a, 5));
     }
-
 }
