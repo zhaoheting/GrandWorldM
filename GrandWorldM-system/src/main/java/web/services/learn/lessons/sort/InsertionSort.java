@@ -37,6 +37,7 @@ public class InsertionSort {
              * for循环括号中，j--和--j的执行结果一样。但是j--需要申请一个变量来存放j的值，所以j--多占用内存。
              */
             for (; j >= 0; --j) {
+                //Current must be used to replace a[i] because the element at index i has been changed after the first swapping.
                 if (current < a[j]) {
                     a[j + 1] = a[j];
                 } else {
