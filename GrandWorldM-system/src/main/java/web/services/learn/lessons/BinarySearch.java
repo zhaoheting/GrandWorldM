@@ -36,21 +36,15 @@ public class BinarySearch {
      * @param x
      * @return
      */
-    private static int searchByRecursion(int[] a, int x) {
-        int low = 0;
-        int high = a.length - 1;
-        return recurse(a, low, high, x);
-    }
-
-    private static int recurse(int[] a, int low, int high, int x) {
+    private static int searchByRecursion(int[] a, int x, int low, int high) {
         if (low <= high) {
-            int mid = low + (high - low >> 1);
+            int mid = low + high >> 1;
             if (a[mid] == x) {
                 return mid;
             } else if (a[mid] < x) {
-                return recurse(a, mid + 1, high, x);
+                return searchByRecursion(a, x, mid + 1, high);
             } else {
-                return recurse(a, low, mid - 1, x);
+                return searchByRecursion(a, x, low, mid - 1);
             }
         }
         return -1;
@@ -58,6 +52,6 @@ public class BinarySearch {
 
     public static void main(String[] args) {
         int[] a = new int[]{3, 5, 6, 7, 9, 33, 55, 65, 76, 87, 99};
-        System.out.println(searchByRecursion(a, 5));
+        System.out.println(searchByRecursion(a, 55, 0, a.length - 1));
     }
 }
