@@ -5,6 +5,11 @@ package web.services.learn.lessons.sort;
  */
 public class ShellSort {
 
+    /**
+     * Implement by while loop.
+     *
+     * @param a
+     */
     private static void sort(int[] a) {
         int length = a.length;
         for (int step = length / 2; step >= 1; step /= 2) {
@@ -29,6 +34,11 @@ public class ShellSort {
         }
     }
 
+    /**
+     * Implement by for loop.
+     *
+     * @param a
+     */
     private static void sort2(int[] a) {
         int length = a.length;
         for (int step = length >> 1; step >= 1; step /= 2) {
