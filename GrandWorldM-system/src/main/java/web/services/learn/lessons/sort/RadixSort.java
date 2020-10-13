@@ -33,6 +33,7 @@ public class RadixSort {
                 int valueInDigit = getFigure(currentValue, j);
                 --c[valueInDigit];
                 int indexR = c[valueInDigit];
+                //Attention: put the origin[m] into array "fresh" instead of the single digit index.
                 r[indexR] = currentValue;
             }
             for (int p = 0; p < r.length; p++) {
@@ -58,42 +59,9 @@ public class RadixSort {
 
     public static void main(String[] args) {
         int[] a = new int[]{59, 3, 66, 32, 456, 4, 36, 9};
-        sort2(a, 3);
+        sort(a, 3);
         for (int n : a) {
             System.out.println(n);
         }
-    }
-
-    private static void sort2(int[] origin, int maxDigit) {
-        for (int i = 1; i <= maxDigit; i++) {
-            int[] count = new int[10];
-            for (int k = 0; k < count.length; k++) {
-                count[k] = 0;
-            }
-            for (int j = 0; j < origin.length; j++) {
-                int currentDigit = getFigure2(origin[j], i);
-                count[currentDigit]++;
-            }
-            for (int k = 1; k < count.length; k++) {
-                count[k] = count[k] + count[k - 1];
-            }
-            int[] fresh = new int[origin.length];
-            for (int m = origin.length - 1; m >= 0; m--) {
-                int index = getFigure2(origin[m],i);
-                --count[index];
-                fresh[count[index]] = index;
-            }
-            for (int n = 0; n<origin.length;n++){
-                origin[n] = fresh[n];
-            }
-        }
-    }
-
-    private static int getFigure2(int x, int k) {
-        int divisor = 1;
-        for (int q = 0; q < k - 1; q++) {
-            divisor = divisor * 10;
-        }
-        return (x / divisor) % 10;
     }
 }
