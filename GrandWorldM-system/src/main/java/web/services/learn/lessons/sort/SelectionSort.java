@@ -7,7 +7,7 @@ public class SelectionSort {
 
     private static void sort(int[] a) {
         int length = a.length;
-        for (int j = 0; j < length; j++) {
+        for (int j = 0; j < length-1; j++) {
             int min = a[j];
             int index = j;
             for (int i = j + 1; i < length; i++) {
