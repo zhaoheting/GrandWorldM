@@ -4,9 +4,10 @@ package web.services.learn.lessons.sort;
  * 归并排序。
  */
 public class MergeSort {
+
     public static void main(String[] args) {
-//        int[] a = new int[]{5, 3, 6, 7, 2, 4, 9, 1};
-        int[] a = new int[]{2, 5, 3, 4};
+        int[] a = new int[]{5, 3, 6, 6, 2, 4, 9, 1};
+//        int[] a = new int[]{2, 5, 3, 4};
         sort(a);
         for (int n : a) {
             System.out.println(n);
@@ -14,16 +15,16 @@ public class MergeSort {
     }
 
     private static void sort(int[] a) {
-        mergeSort(a, 0, a.length - 1);
+        divide(a, 0, a.length - 1);
     }
 
-    private static void mergeSort(int[] a, int start, int end) {
+    private static void divide(int[] a, int start, int end) {
         if (start >= end) {
             return;
         }
         int mid = (end + start) / 2;
-        mergeSort(a, start, mid);
-        mergeSort(a, mid + 1, end);
+        divide(a, start, mid);
+        divide(a, mid + 1, end);
         //当start和end之间只有两个元素时，调用combine函数就直接比较出了大小顺序。所以真正的排序发生在combine函数中。
         combineSentinel(a, start, mid, end);
     }
@@ -88,7 +89,8 @@ public class MergeSort {
         // 因为右侧数组原本就在原数组的右侧位，所以这种情况右侧数组剩余的大的值也不用挪到原数组中，他们原来的位置就是对的位置。
         //另外不等于判断的性能要优于等于判断，因为不等于判断只需要找到一个不同的二进制位即可，而等于判断要比较完所有的二进制位。
         while (left[n] != Integer.MAX_VALUE) {
-            if (left[m] < right[n]) {
+            // The equal sign guarantees the stability of the algorithm.
+            if (left[m] <= right[n]) {
                 a[t++] = left[m++];
             } else {
                 a[t++] = right[n++];
