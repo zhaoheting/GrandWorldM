@@ -7,10 +7,6 @@ package web.services.learn.lessons.sort;
  */
 public class QuickSort {
 
-    private static void sort(int[] a) {
-        quickSort(a, 0, a.length - 1);
-    }
-
     private static void quickSort(int[] a, int start, int end) {
         if (start >= end) {
             return;
@@ -80,7 +76,7 @@ public class QuickSort {
 
     public static void main(String[] args) {
         int[] a = new int[]{5, 3, 16, 4, 22, 10};
-        sort(a);
+        quickSort(a, 0, a.length - 1);
         for (int n : a) {
             System.out.println(n);
         }
