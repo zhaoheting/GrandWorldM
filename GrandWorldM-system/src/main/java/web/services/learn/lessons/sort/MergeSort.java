@@ -88,7 +88,7 @@ public class MergeSort {
         //此处循环条件必须是对左侧数组的最大值判断。不能是对右侧数组的最大值判断。在左侧数组先被遍历完的情况，
         // 因为右侧数组原本就在原数组的右侧位，所以这种情况右侧数组剩余的大的值也不用挪到原数组中，他们原来的位置就是对的位置。
         //另外不等于判断的性能要优于等于判断，因为不等于判断只需要找到一个不同的二进制位即可，而等于判断要比较完所有的二进制位。
-        while (left[n] != Integer.MAX_VALUE) {
+        while (left[m] != Integer.MAX_VALUE) {
             // The equal sign guarantees the stability of the algorithm.
             if (left[m] <= right[n]) {
                 a[t++] = left[m++];
