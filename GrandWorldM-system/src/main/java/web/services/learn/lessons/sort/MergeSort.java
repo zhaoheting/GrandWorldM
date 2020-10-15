@@ -7,15 +7,10 @@ public class MergeSort {
 
     public static void main(String[] args) {
         int[] a = new int[]{5, 3, 6, 6, 2, 4, 9, 1};
-//        int[] a = new int[]{2, 5, 3, 4};
-        sort(a);
+        divide(a, 0, a.length - 1);
         for (int n : a) {
             System.out.println(n);
         }
-    }
-
-    private static void sort(int[] a) {
-        divide(a, 0, a.length - 1);
     }
 
     private static void divide(int[] a, int start, int end) {
@@ -51,12 +46,8 @@ public class MergeSort {
                 a[t++] = right[n++];
             }
         }
-        //若其中一个数组的元素已经被全部放入a中，则另外一个数组中的元素一次性取出。
-        if (m == mid - start + 1) {
-            for (int d = n; d < end - mid; d++) {
-                a[t++] = right[d];
-            }
-        } else {
+        //若右侧数组的元素已经被全部放入a中，则另外一个数组中的元素一次性取出。若左侧数组中元素全被放入，则不用对右侧数组剩余元素处理。
+        if (m != mid - start + 1) {
             for (int d = m; d < mid - start + 1; d++) {
                 a[t++] = left[d];
             }
