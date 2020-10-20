@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.sort;
 
 /**
  * 二分查找，又叫折半查找。

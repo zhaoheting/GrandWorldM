@@ -1,4 +1,4 @@
-package web.services.learn.lessons;
+package web.services.learn.lessons.sort;
 
 import java.util.LinkedList;
 
