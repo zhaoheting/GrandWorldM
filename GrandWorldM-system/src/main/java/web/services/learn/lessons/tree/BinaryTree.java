@@ -31,6 +31,7 @@ public class BinaryTree<E> {
         binaryTree.preOrderNoRecursive(root);
         System.out.println("\nin order:");
         binaryTree.inOrder(root);
+        System.out.println();
         binaryTree.inOrderNoRecursive(root);
         System.out.println("\npost order:");
         binaryTree.postOrder(root);
@@ -58,19 +59,17 @@ public class BinaryTree<E> {
 
     //前序遍历非递归的方式
     public void preOrderNoRecursive(BinaryTreeNode<E> node) {
-        if (node != null) {
-            Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
-            while (true) {
-                while (node != null) {
-                    System.out.print(node.getData() + "\t");
-                    nodeStack.push(node);
-                    node = node.getLeft();
-                }
-                if (nodeStack.empty()) {
-                    break;
-                }
-                node = nodeStack.pop().getRight();
+        Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
+        while (true) {
+            while (node != null) {
+                System.out.print(node.getData() + "\t");
+                nodeStack.push(node);
+                node = node.getLeft();
             }
+            if (nodeStack.empty()) {
+                break;
+            }
+            node = nodeStack.pop().getRight();
         }
     }
 
@@ -84,20 +83,18 @@ public class BinaryTree<E> {
     }
 
     public void inOrderNoRecursive(BinaryTreeNode<E> node) {
-        if (node != null) {
-            Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
-            while (true) {
-                while (node != null) {
-                    nodeStack.push(node);
-                    node = node.getLeft();
-                }
-                if (nodeStack.empty()) {
-                    return;
-                }
-                node = nodeStack.pop();
-                System.out.print(node.getData() + "\t");
-                node = node.getRight();
+        Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
+        while (true) {
+            while (node != null) {
+                nodeStack.push(node);
+                node = node.getLeft();
             }
+            if (nodeStack.empty()) {
+                return;
+            }
+            node = nodeStack.pop();
+            System.out.print(node.getData() + "\t");
+            node = node.getRight();
         }
     }
 
@@ -107,21 +104,6 @@ public class BinaryTree<E> {
             postOrder(node.getLeft());
             postOrder(node.getRight());
             System.out.print(node.getData() + "\t");
-        }
-    }
-
-    public void postOrderNoRecursive(BinaryTreeNode<E> node) {
-        if (node != null) {
-            Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
-            while (true) {
-                while (node != null) {
-                    nodeStack.push(node);
-                    node = node.getLeft();
-                }
-                node = nodeStack.pop();
-                node = node.getRight();
-                System.out.print(node.getData() + "\t");
-            }
         }
     }
 
