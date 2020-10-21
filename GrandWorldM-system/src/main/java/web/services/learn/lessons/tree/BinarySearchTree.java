@@ -1,23 +1,17 @@
 package web.services.learn.lessons.tree;
 
+/**
+ * Implement operations with iteration.
+ * not support lazy deletion and all the duplicated data will be save in the right sub tree(treated as larger data).
+ */
 public class BinarySearchTree {
     private BinarySearchNode root;
 
-    public BinarySearchNode find(int data) {
+    public void delete(int data) {
         if (root == null) {
-            return null;
+            throw new RuntimeException("The tree is null.");
         }
-        BinarySearchNode node = root;
-        while (node != null) {
-            if (node.data == data) {
-                return node;
-            } else if (node.data > data) {
-                node = node.left;
-            } else {
-                node = node.right;
-            }
-        }
-        return null;
+        delete(data, root);
     }
 
     public void insert(int data) {
@@ -33,17 +27,33 @@ public class BinarySearchTree {
                     break;
                 }
                 node = node.left;
-            } else if (node.data < data) {
+            } else {//the duplicated data will be treated as larger data.
                 if (node.right == null) {
                     node.right = new BinarySearchNode(data);
                     break;
                 }
                 node = node.right;
-            } else {
-
             }
         }
     }
+
+    public boolean contain(int data) {
+        if (root == null) {
+            throw new RuntimeException("The tree is empty.");
+        }
+        BinarySearchNode current = root;
+        while (current != null) {
+            if (current.data == data) {
+                return true;
+            } else if (current.data > data) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        return false;
+    }
+
 
     private int findMin(BinarySearchNode node) {
         if (node == null) {
@@ -65,35 +75,29 @@ public class BinarySearchTree {
         return node.data;
     }
 
-    public void delete(int data) {
-        if (root == null) {
-            throw new RuntimeException("The tree is null.");
-        }
-        BinarySearchNode node = root;
-        while (node != null && node.data != data) {
-            if (node.data > data) {
-                node = node.left;
-            } else {
-                node = node.right;
-            }
-        }
+    /**
+     * 不会用迭代实现。
+     *
+     * @param data
+     * @param node
+     * @return
+     */
+    private BinarySearchNode delete(int data, BinarySearchNode node) {
         if (node == null) {
-            throw new RuntimeException("Can't find this data.");
+            return null;
         }
-        //there is a single sub node or no sub node.
-        if (node.left != null && node.right != null) {
+        if (node.data > data) {
+            node.left = delete(data, node.left);
+        } else if (node.data < data) {
+            node.right = delete(data, node.right);
+        } else if (node.left != null && node.right != null) {
             int replaceData = findMin(node.right);
             node.data = replaceData;
-            delete(replaceData);
-        }
-        //there is two sub nodes.
-        if (node.left != null) {
-            node = node.left;
-        } else if (node.right != null) {
-            node = node.right;
+            node.right = delete(replaceData, node.right);
         } else {
-            node = null;
+            node = (node.left != null) ? node.left : node.right;
         }
+        return node;
     }
 
     private class BinarySearchNode {
