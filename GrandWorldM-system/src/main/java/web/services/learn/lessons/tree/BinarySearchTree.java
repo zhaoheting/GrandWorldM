@@ -4,7 +4,7 @@ package web.services.learn.lessons.tree;
  * Implement operations with iteration.
  * not support lazy deletion and all the duplicated data will be save in the right sub tree(treated as larger data).
  */
-public class BinarySearchTree {
+public class BinarySearchTree extends BinaryTree{
     private BinarySearchNode root;
 
     public void delete(int data) {

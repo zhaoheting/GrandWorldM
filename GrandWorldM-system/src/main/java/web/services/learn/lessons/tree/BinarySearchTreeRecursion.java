@@ -4,7 +4,7 @@ package web.services.learn.lessons.tree;
  * Implement operations with recursion.
  * support lazy deletion and duplicated value in every node.
  */
-public class BinarySearchTreeRecursion {
+public class BinarySearchTreeRecursion extends BinaryTree{
     private Node root;
     private int theSize;
     private int deletedAmount;
