@@ -7,11 +7,12 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
- * Binary tree.
+ * Common module to traverse binary tree.
  *
  * @param <E>
  */
 public class BinaryTree<E> {
+    BinaryTreeNode<E> root;
 
     public static void main(String[] args) {
         BinaryTreeNode node10 = new BinaryTreeNode(10, null, null);
@@ -23,22 +24,22 @@ public class BinaryTree<E> {
         BinaryTreeNode node7 = new BinaryTreeNode(7, null, null);
         BinaryTreeNode node2 = new BinaryTreeNode(2, node4, node5);
         BinaryTreeNode node3 = new BinaryTreeNode(3, node6, node7);
-        BinaryTreeNode root = new BinaryTreeNode(1, node2, node3);
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
+        binaryTree.root = new BinaryTreeNode(1, node2, node3);
         System.out.println("previous order:");
-        binaryTree.preOrder(root);
+        binaryTree.preOrder();
         System.out.println();
-        binaryTree.preOrderNoRecursive(root);
+        binaryTree.preOrderNoRecursive();
         System.out.println("\nin order:");
-        binaryTree.inOrder(root);
+        binaryTree.inOrder();
         System.out.println();
-        binaryTree.inOrderNoRecursive(root);
+        binaryTree.inOrderNoRecursive();
         System.out.println("\npost order:");
-        binaryTree.postOrder(root);
+        binaryTree.postOrder();
         System.out.println("\nlevel order:");
-        binaryTree.levelOrder(root);
+        binaryTree.levelOrder();
         System.out.println("\ntraverse the tree in 5 levels:");
-        List<List<Integer>> result = binaryTree.levelOrderInMultiList(root);
+        List<List<Integer>> result = binaryTree.levelOrderInMultiList();
         for (int k = 0; k < result.size(); k++) {
             List<Integer> currentLevel = result.get(k);
             for (int j = 0; j < currentLevel.size(); j++) {
@@ -48,8 +49,12 @@ public class BinaryTree<E> {
         }
     }
 
+    public void preOrder() {
+        preOrder(root);
+    }
+
     //previous order.
-    public void preOrder(BinaryTreeNode<E> node) {
+    private void preOrder(BinaryTreeNode<E> node) {
         if (node != null) {
             System.out.print(node.getData() + "\t");
             preOrder(node.getLeft());
@@ -58,7 +63,8 @@ public class BinaryTree<E> {
     }
 
     //前序遍历非递归的方式
-    public void preOrderNoRecursive(BinaryTreeNode<E> node) {
+    public void preOrderNoRecursive() {
+        BinaryTreeNode<E> node = root;
         Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
         while (true) {
             while (node != null) {
@@ -73,8 +79,12 @@ public class BinaryTree<E> {
         }
     }
 
+    public void inOrder() {
+        inOrder(root);
+    }
+
     //in order.
-    public void inOrder(BinaryTreeNode<E> node) {
+    private void inOrder(BinaryTreeNode<E> node) {
         if (node != null) {
             inOrder(node.getLeft());
             System.out.print(node.getData() + "\t");
@@ -82,7 +92,8 @@ public class BinaryTree<E> {
         }
     }
 
-    public void inOrderNoRecursive(BinaryTreeNode<E> node) {
+    public void inOrderNoRecursive() {
+        BinaryTreeNode<E> node = root;
         Stack<BinaryTreeNode<E>> nodeStack = new Stack<>();
         while (true) {
             while (node != null) {
@@ -98,8 +109,12 @@ public class BinaryTree<E> {
         }
     }
 
+    public void postOrder() {
+        postOrder(root);
+    }
+
     //post order.
-    public void postOrder(BinaryTreeNode<E> node) {
+    private void postOrder(BinaryTreeNode<E> node) {
         if (node != null) {
             postOrder(node.getLeft());
             postOrder(node.getRight());
@@ -109,10 +124,9 @@ public class BinaryTree<E> {
 
     /**
      * Traverse binary tree in level order and all the numbers of one level are saved in a single array.
-     *
-     * @param node
      */
-    public List<List<E>> levelOrderInMultiList(BinaryTreeNode<E> node) {
+    public List<List<E>> levelOrderInMultiList() {
+        BinaryTreeNode<E> node = root;
         List<List<E>> result = new ArrayList<>();
         if (node == null) {
             return result;
@@ -141,10 +155,9 @@ public class BinaryTree<E> {
 
     /**
      * Traverse binary tree in level order.
-     *
-     * @param node
      */
-    public void levelOrder(BinaryTreeNode<E> node) {
+    public void levelOrder() {
+        BinaryTreeNode<E> node = root;
         Queue<BinaryTreeNode<E>> queue = new LinkedList<>();
         queue.offer(node);
         while (!queue.isEmpty()) {

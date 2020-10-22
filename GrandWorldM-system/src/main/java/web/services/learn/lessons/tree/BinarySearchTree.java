@@ -4,8 +4,7 @@ package web.services.learn.lessons.tree;
  * Implement operations with iteration.
  * not support lazy deletion and all the duplicated data will be save in the right sub tree(treated as larger data).
  */
-public class BinarySearchTree extends BinaryTree{
-    private BinarySearchNode root;
+public class BinarySearchTree extends BinaryTree<Integer> {
 
     public void delete(int data) {
         if (root == null) {
@@ -14,22 +13,22 @@ public class BinarySearchTree extends BinaryTree{
         delete(data, root);
     }
 
-    public void insert(int data) {
+    public void insert(Integer data) {
         if (root == null) {
-            root = new BinarySearchNode(data);
+            root = new BinaryTreeNode(data);
             return;
         }
-        BinarySearchNode node = root;
+        BinaryTreeNode<Integer> node = root;
         while (node != null) {
             if (node.data > data) {
                 if (node.left == null) {
-                    node.left = new BinarySearchNode(data);
+                    node.left = new BinaryTreeNode(data);
                     break;
                 }
                 node = node.left;
             } else {//the duplicated data will be treated as larger data.
                 if (node.right == null) {
-                    node.right = new BinarySearchNode(data);
+                    node.right = new BinaryTreeNode(data);
                     break;
                 }
                 node = node.right;
@@ -41,7 +40,7 @@ public class BinarySearchTree extends BinaryTree{
         if (root == null) {
             throw new RuntimeException("The tree is empty.");
         }
-        BinarySearchNode current = root;
+        BinaryTreeNode<Integer> current = root;
         while (current != null) {
             if (current.data == data) {
                 return true;
@@ -55,7 +54,7 @@ public class BinarySearchTree extends BinaryTree{
     }
 
 
-    private int findMin(BinarySearchNode node) {
+    private int findMin(BinaryTreeNode<Integer> node) {
         if (node == null) {
             throw new RuntimeException("The tree is null.");
         }
@@ -65,7 +64,7 @@ public class BinarySearchTree extends BinaryTree{
         return node.data;
     }
 
-    private int findMax(BinarySearchNode node) {
+    private int findMax(BinaryTreeNode<Integer> node) {
         if (node == null) {
             throw new RuntimeException("The tree is null.");
         }
@@ -82,7 +81,7 @@ public class BinarySearchTree extends BinaryTree{
      * @param node
      * @return
      */
-    private BinarySearchNode delete(int data, BinarySearchNode node) {
+    private BinaryTreeNode delete(int data, BinaryTreeNode<Integer> node) {
         if (node == null) {
             return null;
         }
@@ -98,21 +97,5 @@ public class BinarySearchTree extends BinaryTree{
             node = (node.left != null) ? node.left : node.right;
         }
         return node;
-    }
-
-    private class BinarySearchNode {
-        private int data;
-        private BinarySearchNode left;
-        private BinarySearchNode right;
-
-        public BinarySearchNode(int data) {
-            this.data = data;
-        }
-
-        public BinarySearchNode(int data, BinarySearchNode left, BinarySearchNode right) {
-            this.data = data;
-            this.left = left;
-            this.right = right;
-        }
     }
 }

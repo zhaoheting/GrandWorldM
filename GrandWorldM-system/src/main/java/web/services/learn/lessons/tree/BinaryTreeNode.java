@@ -1,14 +1,18 @@
 package web.services.learn.lessons.tree;
 
 /**
- * The node of tree.
+ * The node of binary tree.
  */
 public class BinaryTreeNode<E> {
-    private E data;
-    private BinaryTreeNode<E> left;
-    private BinaryTreeNode<E> right;
+    public E data;
+    public BinaryTreeNode<E> left;
+    public BinaryTreeNode<E> right;
 
     public BinaryTreeNode() {
+    }
+
+    public BinaryTreeNode(E data) {
+        this.data = data;
     }
 
     public BinaryTreeNode(E data, BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
