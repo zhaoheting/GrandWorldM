@@ -5,7 +5,17 @@ package web.services.learn.lessons.tree;
  */
 public class HeapSort {
     public static void main(String[] args) {
-
+        int[] arr = new int[5];
+        arr[0]= 3;
+        arr[1] = 5;
+        arr[2] = 1;
+        arr[3] = 6;
+        arr[4] = 2;
+        HeapSort hs = new HeapSort();
+        hs.sortFromEnd(arr);
+        for (int x : arr){
+            System.out.println(x);
+        }
     }
 
     /**
@@ -13,91 +23,74 @@ public class HeapSort {
      * then heapify from the bottom to top.
      * (2)Sort like the process of deletion.
      *
-     * @param a
+     * @param arr
      */
-    public void sortFromBegin(int[] a) {
-        //Build heap.
-        for (int i = 1; i < a.length; i++) {
-            while ((i - 1) >> 1 > 0 && a[i] > a[(i - 1) >> 1]) {
-                int temp = a[i];
-                a[i] = a[(i - 1) >> 1];
-                a[(i - 1) >> 1] = temp;
-                i = (i - 1) >> 1;
+    public void sortFromBegin(int[] arr) {
+        //build heap from top.
+        for (int i = 1; i < arr.length; i++) {
+            while (i - 1 >> 1 >= 0 && arr[i - 1 >> 1] < arr[i]) {
+                //swap
+                int temp = arr[i - 1 >> 1];
+                arr[i - 1 >> 1] = arr[i];
+                arr[i] = temp;
+                i = i - 1 >> 1;
             }
         }
-        //Sort.
-        int n = a.length - 1;
-        while (n > 0) {
-            int maxVal = a[0];
-            a[0] = a[n];
-            a[n] = maxVal;
-            --n;
-            //heapify.
-            int k = 0, maxPosition = 0;
-            while (true) {
-                if (2 * k + 1 <= n && a[k] < a[2 * k + 1]) {
-                    maxPosition = 2 * k + 1;
-                }
-                if (2 * k + 2 <= n && a[maxPosition] < a[2 * k + 2]) {
-                    maxPosition = 2 * k + 2;
-                }
-                if (maxPosition == k) {
-                    break;
-                }
-                int temp = a[k];
-                a[k] = a[maxPosition];
-                a[maxPosition] = temp;
-                k = maxPosition;
-            }
-        }
+
+        //sort
+        sort(arr);
     }
 
-    public void sortFromEnd(int[] a) {
-        //build heap
-        //heapify from top to bottom.
-        int n = a.length;
-        int i = n >> 1;
-        while (i >= 0) {
-            int k = i, maxPosition = i;
+    public void sortFromEnd(int[] arr) {
+        //build heap from bottom.
+        int n = arr.length-1;
+        int start = n >> 1;
+        for (int j = start; j >= 0; --j) {
+            int currentIndex = j, i = j;
             while (true) {
-                if (k * 2 + 1 <= n && a[k] < a[k * 2 + 1]) {
-                    maxPosition = k * 2 + 1;
+                if (2 * i + 1 <= n && arr[currentIndex] < arr[2 * i + 1]) {
+                    currentIndex = 2 * i + 1;
                 }
-                if (k * 2 + 2 <= n && a[maxPosition] < a[k * 2 + 2]) {
-                    maxPosition = k * 2 + 2;
+                if (2 * i + 2 <= n && arr[currentIndex] < arr[2 * i + 2]) {
+                    currentIndex = 2 * i + 2;
                 }
-                if (k == maxPosition) {
+                if (currentIndex == i) {
                     break;
                 }
-                int temp = a[k];
-                a[k] = a[maxPosition];
-                a[maxPosition] = temp;
-                k = maxPosition;
+                int temp = arr[currentIndex];
+                arr[currentIndex] = arr[i];
+                arr[i] = temp;
+                i = currentIndex;
             }
-            --i;
         }
-        //Sort.
+        //sort.
+        sort(arr);
+    }
+
+    private void sort(int[] arr) {
+        int n = arr.length - 1;
+        //swap.
         while (n > 0) {
-            int maxVal = a[0];
-            a[0] = a[n];
-            a[n] = maxVal;
-            --n;
+            int maximum = arr[0];
+            arr[0] = arr[n];
+            arr[n--] = maximum;
             //heapify.
-            int k = 0, maxPosition = 0;
+            int i = 0;
+            int currentIndex = 0;
             while (true) {
-                if (2 * k + 1 <= n && a[k] < a[2 * k + 1]) {
-                    maxPosition = 2 * k + 1;
+                if (2 * i + 1  <= n && arr[currentIndex] < arr[2 * i + 1]) {
+                    currentIndex = 2 * i + 1;
                 }
-                if (2 * k + 2 <= n && a[maxPosition] < a[2 * k + 2]) {
-                    maxPosition = 2 * k + 2;
+                if (2 * i + 2 <= n && arr[currentIndex] < arr[2 * i + 2]) {
+                    currentIndex = 2 * i + 2;
                 }
-                if (maxPosition == k) {
+                if (currentIndex == i) {
                     break;
                 }
-                int temp = a[k];
-                a[k] = a[maxPosition];
-                a[maxPosition] = temp;
-                k = maxPosition;
+                int temp = arr[currentIndex];
+                arr[currentIndex] = arr[i];
+                arr[i] = temp;
+                i = currentIndex;
             }
         }
     }
