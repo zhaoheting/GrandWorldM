@@ -1,8 +1,11 @@
 package web.stream;
 
+import java.util.Optional;
+
 public class ZhtPerson implements Comparable<ZhtPerson>{
     public String username;
     public int age;
+    private Optional<String> address;
 
     public ZhtPerson(String username, int age) {
         this.username = username;
@@ -23,6 +26,14 @@ public class ZhtPerson implements Comparable<ZhtPerson>{
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Optional<String> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Optional<String> address) {
+        this.address = address;
     }
 
     @Override

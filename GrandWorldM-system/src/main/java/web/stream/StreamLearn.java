@@ -1,11 +1,8 @@
 package web.stream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.TreeSet;
+import io.swagger.models.auth.In;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StreamLearn {
@@ -39,7 +36,15 @@ public class StreamLearn {
                 .sorted(Comparator.comparing(ZhtPerson::getAge))
                 .map(x->x.username)
                 .collect(Collectors.toList());
-        System.out.println(result);
+//        System.out.println(result);
+
+//        Integer address = Optional.of(new ZhtPerson("",18))
+//                .flatMap(Address::getAddressNumber).orElse(20);
+
+//        Optional<Address> addressOptional = Optional.empty();
+        Address address1 = new Address();
+        Optional<Address> addressOptional1 = Optional.ofNullable(address1);
+        addressOptional1.ifPresent(System.out::println);
 
     }
 
