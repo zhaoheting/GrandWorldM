@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Address {
 
     private Optional<Integer> addressNumber;
-    private Optional<String> addressDetail;
+    private String addressDetail;
 
     public Optional<Integer> getAddressNumber() {
         return addressNumber;
@@ -15,11 +15,11 @@ public class Address {
         this.addressNumber = addressNumber;
     }
 
-    public Optional<String> getAddressDetail() {
+    public String getAddressDetail() {
         return addressDetail;
     }
 
-    public void setAddressDetail(Optional<String> addressDetail) {
+    public void setAddressDetail(String addressDetail) {
         this.addressDetail = addressDetail;
     }
 }

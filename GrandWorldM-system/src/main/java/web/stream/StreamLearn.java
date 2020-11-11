@@ -1,8 +1,14 @@
 package web.stream;
 
-import io.swagger.models.auth.In;
-
-import java.util.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
+import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class StreamLearn {
@@ -23,7 +29,7 @@ public class StreamLearn {
         List<Integer> numbers = Arrays.asList(6, 2, 2, 3, 7, 3, 1);
         TreeSet<Integer> result3 = numbers.stream()
                 .distinct()
-                .sorted((x,y)-> y-x)
+                .sorted((x, y) -> y - x)
                 .collect(Collectors.toCollection(TreeSet::new));
 //        System.out.println(result3);
         List<ZhtPerson> list = new ArrayList<>();
@@ -34,21 +40,35 @@ public class StreamLearn {
         list.add(new ZhtPerson("ddd", 36));
         List<String> result = list.stream()
                 .sorted(Comparator.comparing(ZhtPerson::getAge))
-                .map(x->x.username)
+                .map(x -> x.username)
                 .collect(Collectors.toList());
 //        System.out.println(result);
 
-//        Integer address = Optional.of(new ZhtPerson("",18))
-//                .flatMap(Address::getAddressNumber).orElse(20);
+        String person2 = Optional.of(new ZhtPerson("", 18))
+                .map(ZhtPerson::getUsername).orElse("");
+
+//        String person3 = Optional.of(new ZhtPerson("", 18))
+//                .flatMap(ZhtPerson::getAddress).map(Address::getAddressDetail).orElse("");
 
 //        Optional<Address> addressOptional = Optional.empty();
         Address address1 = new Address();
         Optional<Address> addressOptional1 = Optional.ofNullable(address1);
         addressOptional1.ifPresent(System.out::println);
+        String[] strings1 = {"eee","ttt","sss"};
+
+        try {
+            Method method = StreamLearn.class.getMethod("main",String[].class);
+            for (final Parameter parameter : method.getParameters()){
+                System.out.println(parameter.getName());
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    private void testComparator(){
+    private void testComparator(String[] args) {
         List<ZhtPerson> list = new ArrayList<>();
 
         list.add(new ZhtPerson("aaa", 16));
@@ -57,7 +77,7 @@ public class StreamLearn {
         list.add(new ZhtPerson("ddd", 36));
         List<String> result = list.stream()
                 .sorted(Comparator.comparing(ZhtPerson::getAge))
-                .map(x->x.username)
+                .map(x -> x.username)
                 .collect(Collectors.toList());
         System.out.println(result);
     }

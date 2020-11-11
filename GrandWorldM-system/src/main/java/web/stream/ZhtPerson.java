@@ -2,10 +2,10 @@ package web.stream;
 
 import java.util.Optional;
 
-public class ZhtPerson implements Comparable<ZhtPerson>{
+public class ZhtPerson {
     public String username;
     public int age;
-    private Optional<String> address;
+    private Optional<Address> address;
 
     public ZhtPerson(String username, int age) {
         this.username = username;
@@ -28,16 +28,15 @@ public class ZhtPerson implements Comparable<ZhtPerson>{
         this.age = age;
     }
 
-    public Optional<String> getAddress() {
+    public Optional<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(Optional<String> address) {
+    public void setAddress(Optional<Address> address) {
         this.address = address;
     }
 
-    @Override
-    public int compareTo(ZhtPerson o) {
-        return username.compareTo(o.username);
+    public String compareTo(ZhtPerson o) {
+        return username + o.username;
     }
 }

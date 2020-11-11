@@ -1,6 +1,7 @@
 package web.stream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,5 +43,9 @@ public class StreamLazinessTest {
         /** Terminal operation on the stream and it will invoke the Intermediate Operations
          * filter and map **/
         employeeNameStreams.collect(Collectors.toList());
+
+        String separator = ",";
+        Arrays.asList( "a", "b", "d" ).forEach(
+                ( String e ) -> System.out.print( e + separator ) );
     }
 }

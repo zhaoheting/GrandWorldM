@@ -1,15 +1,10 @@
 package web.stream;
 
 
-import java.util.Comparator;
+import io.swagger.models.auth.In;
 
-public class MyComparator implements Comparator<ZhtPerson> {
+@FunctionalInterface
+public interface MyComparator<E> {
 
-    public MyComparator() {
-    }
-
-    @Override
-    public int compare(ZhtPerson o1, ZhtPerson o2) {
-        return o1.age-o2.age;
-    }
+    Integer compare(E o1, E o2);
 }
