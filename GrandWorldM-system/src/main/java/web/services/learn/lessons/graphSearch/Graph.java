@@ -1,9 +1,14 @@
 package web.services.learn.lessons.graphSearch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 /**
  * 广度优先搜索
@@ -18,6 +23,10 @@ public class Graph {
         for (int i = 0; i < amount; i++) {
             this.adjacentList[i] = new ArrayList<>();
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 
     public void addEdge(int s, int t) {
