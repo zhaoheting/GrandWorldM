@@ -1,71 +1,86 @@
 package web.services.learn.lessons.graphSearch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
-import java.util.stream.Stream;
 
 /**
  * 广度优先搜索
  */
 public class Graph {
 
-    private int vertexAmount;
-    private List<Integer>[] adjacentList;
+    private static int vertexAmount;
+    private static List<Integer>[] adjacentList;
 
-    public Graph(int amount) {
-        this.vertexAmount = amount;
-        for (int i = 0; i < amount; i++) {
-            this.adjacentList[i] = new ArrayList<>();
+    public Graph(int vertexAmount) {
+        for (int i = 0; i < vertexAmount; ++i) {
+            adjacentList[i] = new ArrayList<>();
         }
+    }
+
+    private static Graph init(int vertexAmount) {
+        Graph graph = new Graph(vertexAmount);
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 3);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 4);
+        graph.addEdge(3, 4);
+        graph.addEdge(2, 5);
+        graph.addEdge(4, 5);
+        graph.addEdge(4, 6);
+        graph.addEdge(6, 7);
+        graph.addEdge(5, 7);
+        return graph;
     }
 
     public static void main(String[] args) {
-
+        init(8);
+        breadthFirstSearch(0,8);
     }
 
-    public void addEdge(int s, int t) {
-        adjacentList[s].add(t);
-        adjacentList[t].add(s);
+    public void addEdge(int start, int end) {
+        this.adjacentList[start].add(end);
+        this.adjacentList[end].add(start);
     }
 
-    public void bfs(int start, int des) {
-        //visited[i] = true, 则不用再往队列里面放
-        boolean[] visited = new boolean[vertexAmount];
-        Queue<Integer> vertexQueue = new LinkedList<>();
-        int[] previous = new int[vertexAmount];
-        for (int current : previous) {
-            current = -1;
+    public static void breadthFirstSearch(int start, int end) {
+        if (start == end) {
+            return;
         }
+        boolean[] visited = new boolean[vertexAmount];
+        int[] prefix = new int[vertexAmount];
+        for (int j = 0; j < vertexAmount; ++j) {
+            prefix[j] = -1;
+        }
+        Queue<Integer> vertexQueue = new LinkedList<>();
         vertexQueue.offer(start);
-        visited[0] = true;
+        visited[start] = true;
+        for (int i = 0; i < adjacentList[start].size(); ++i) {
+            vertexQueue.offer(adjacentList[start].get(i));
+        }
         while (!vertexQueue.isEmpty()) {
-            int current = vertexQueue.poll();
-            for (int j = 0; j < adjacentList[current].size(); ++j) {
-                int currentChild = adjacentList[current].get(j);
-                if (!visited[currentChild]) {
-                    previous[currentChild] = current;
-                    if (current == des) {
-                        printVertex(previous, start, des);
+            int currentVertex = vertexQueue.poll();
+            for (int i = 0; i < adjacentList[currentVertex].size(); ++i) {
+                int x = adjacentList[currentVertex].get(i);
+
+                if (!visited[i]) {
+                    if (x == end) {
+                        print(prefix, start, end);
                         return;
                     }
+                    prefix[x] = currentVertex;
+                    visited[currentVertex] = true;
+                    vertexQueue.offer(x);
                 }
-                vertexQueue.offer(currentChild);
-                visited[current] = true;
             }
         }
     }
 
-    public void printVertex(int[] previous, int start, int current) {
-        int previousVertex = previous[current];
-        if (previousVertex != -1 && current != start) {
-            printVertex(previous, start, previousVertex);
+    private static void print(int[] prefix, int start, int end) {
+        if (end != start && prefix[end] != -1) {
+            print(prefix, start, prefix[end]);
         }
-        System.out.println(current + " ");
+        System.out.print(prefix[end] + " ");
     }
 }
