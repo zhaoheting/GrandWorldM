@@ -14,8 +14,10 @@ public class Graph {
     private static List<Integer>[] adjacentList;
 
     public Graph(int vertexAmount) {
+        this.vertexAmount = vertexAmount;
+        adjacentList = new LinkedList[vertexAmount];
         for (int i = 0; i < vertexAmount; ++i) {
-            adjacentList[i] = new ArrayList<>();
+            adjacentList[i] = new LinkedList<>();
         }
     }
 
@@ -36,7 +38,7 @@ public class Graph {
 
     public static void main(String[] args) {
         init(8);
-        breadthFirstSearch(0,8);
+        breadthFirstSearch(0, 7);
     }
 
     public void addEdge(int start, int end) {
@@ -56,21 +58,19 @@ public class Graph {
         Queue<Integer> vertexQueue = new LinkedList<>();
         vertexQueue.offer(start);
         visited[start] = true;
-        for (int i = 0; i < adjacentList[start].size(); ++i) {
-            vertexQueue.offer(adjacentList[start].get(i));
-        }
         while (!vertexQueue.isEmpty()) {
             int currentVertex = vertexQueue.poll();
             for (int i = 0; i < adjacentList[currentVertex].size(); ++i) {
                 int x = adjacentList[currentVertex].get(i);
 
-                if (!visited[i]) {
+                if (!visited[x]) {
+                    prefix[x] = currentVertex;
                     if (x == end) {
-                        print(prefix, start, end);
+                        print(prefix, start + 1, end);
+                        System.out.print(end + " ");
                         return;
                     }
-                    prefix[x] = currentVertex;
-                    visited[currentVertex] = true;
+                    visited[x] = true;
                     vertexQueue.offer(x);
                 }
             }
@@ -78,7 +78,7 @@ public class Graph {
     }
 
     private static void print(int[] prefix, int start, int end) {
-        if (end != start && prefix[end] != -1) {
+        if (prefix[end] != -1 && end != start) {
             print(prefix, start, prefix[end]);
         }
         System.out.print(prefix[end] + " ");
