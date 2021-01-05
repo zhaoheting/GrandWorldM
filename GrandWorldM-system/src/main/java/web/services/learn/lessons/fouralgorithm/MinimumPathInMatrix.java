@@ -12,9 +12,11 @@ public class MinimumPathInMatrix {
 
     public static void main(String[] args) {
         int[][] matrix = {{1, 3, 5, 9}, {2, 1, 3, 4}, {5, 2, 6, 7}, {6, 8, 4, 3}};
+        int[][] pathArray = new int[4][4];
         MinimumPathInMatrix m = new MinimumPathInMatrix();
 //        m.backTrack(0, 0, matrix[0][0], matrix, matrix.length);
-        minPath = m.dynamicProgramTable(matrix, 4);
+//        minPath = m.dynamicProgramTable(matrix, 4);
+        minPath = m.dynamicProgramExpression(3, 3, matrix, pathArray);
         System.out.println("minPath: " + minPath);
     }
 
@@ -71,5 +73,35 @@ public class MinimumPathInMatrix {
             }
         }
         return pathArray[dimension - 1][dimension - 1];
+    }
+
+    /**
+     * 动态规划-状态转移方程（递归加备忘录）。
+     *
+     * @return
+     */
+    private int dynamicProgramExpression(int row, int column, int[][] matrix, int[][] pathArray) {
+        //
+        if (row == 0 && column == 0) {
+            return matrix[0][0];
+        }
+        //Don't recalculate the value int the same index.
+        if (pathArray[row][column] > 0) {
+            return pathArray[row][column];
+        }
+        //get the minimum of the left index.
+        int leftMin = Integer.MAX_VALUE;
+        if (column - 1 >= 0) {
+            leftMin = dynamicProgramExpression(row, column - 1, matrix, pathArray);
+        }
+        //get the minimum of the up index.
+        int upMin = Integer.MAX_VALUE;
+        if (row - 1 >= 0) {
+            upMin = dynamicProgramExpression(row - 1, column, matrix, pathArray);
+        }
+        //get the minimum of the current index.
+        int currentMin = matrix[row][column] + Math.min(leftMin, upMin);
+        pathArray[row][column] = currentMin;
+        return currentMin;
     }
 }
