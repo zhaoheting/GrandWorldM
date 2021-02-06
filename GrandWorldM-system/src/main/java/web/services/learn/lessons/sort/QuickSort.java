@@ -8,6 +8,8 @@ package web.services.learn.lessons.sort;
 public class QuickSort {
 
     private static void quickSort(int[] a, int start, int end) {
+        //当比较范围包含两个元素时，即start+1 = end时， 这里的限制条件起作用。
+        // 大于是用于结束左半部分，等于是用于结束右半部分。若不带等于号，则右半部分多执行一次（无用功），但不影响正确性。
         if (start >= end) {
             return;
         }
