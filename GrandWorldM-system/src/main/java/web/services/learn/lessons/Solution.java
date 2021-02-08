@@ -1,92 +1,130 @@
 package web.services.learn.lessons;
 
-import java.util.*;
-
 class Solution {
 
     public static void main(String[] args) {
-        int[] preorder = {1, 2};
-        int[] inorder = {2, 1};
-        TreeNode root = buildTree(preorder, inorder);
-        levelTraverse(root).stream().map(node -> node.val).forEach(System.out::print);
+        ListNode root = initList();
+        ListNode node = insertionSortList(root);
+        System.out.println(node.val);
     }
 
-    public static TreeNode buildTree(int[] preorder, int[] inorder) {
-        int length = preorder.length;
-        if (length == 0) {
+    public static ListNode insertionSortList(ListNode head) {
+        if (head == null) {
             return null;
         }
-        Map<Integer, Integer> map = initMap(inorder);
-        return recurse(map, inorder, preorder, 0, length - 1, 0, length - 1);
-    }
-
-    private static TreeNode recurse(Map<Integer, Integer> map, int[] inorder, int[] preorder, int preLeftIndex, int preRightIndex, int inLeftIndex, int inRightIndex) {
-        //terminal condition: only one single node in current sub tree.
-        if (preLeftIndex > preRightIndex) {
-            return null;
+        ListNode root = head;
+        //从第二个节点开始比较
+        ListNode current = head.next;
+        ListNode nextNode = null;
+        root.next = null;
+        while (current != null) {
+            nextNode = current.next;
+            root = insert(root, current);
+            current = nextNode;
         }
-        int currentRootVal = preorder[preLeftIndex];
-        TreeNode currentRoot = new TreeNode(currentRootVal);
-        //get the index of current root node in the inOrder array.
-        int currentRootIndex = map.get(currentRootVal);
-        currentRoot.left = recurse(map, inorder, preorder, preLeftIndex + 1, preLeftIndex + currentRootIndex - inLeftIndex, inLeftIndex, currentRootIndex - 1);
-        currentRoot.right = recurse(map, inorder, preorder, preLeftIndex + currentRootIndex - inLeftIndex + 1, preRightIndex, currentRootIndex + 1, inRightIndex);
-        return currentRoot;
+        return root;
     }
 
-    //根据中序遍历的数组，构建一个map，它的key时数组中的元素，value时每个元素的index。以便使用时可以快速定位到根节点的位置。
-    private static Map<Integer, Integer> initMap(int[] inorder) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < inorder.length; ++i) {
-            map.put(inorder[i], i);
-        }
-        return map;
-    }
-
-    /**
-     * 层序遍历。
-     *
-     * @param root
-     * @return
-     */
-    private static List<TreeNode> levelTraverse(TreeNode root) {
-        List<TreeNode> resultList = new ArrayList<>();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; ++i) {
-                TreeNode current = queue.poll();
-                resultList.add(current);
-                TreeNode left = current.left;
-                TreeNode right = current.right;
-                if (left != null) {
-                    queue.offer(left);
-                }
-                if (right != null) {
-                    queue.offer(current);
-                }
+    //将node节点插入到以root为根节点的list中,保持list升序。
+    private static ListNode insert(ListNode root, ListNode node) {
+        if (root.val > node.val) {
+            node.next = root;
+            root = node;
+        } else {
+            ListNode current = root.next;
+            ListNode previous = root;
+            while (current != null && current.val < node.val) {
+                previous = current;
+                current = current.next;
             }
+            previous.next = node;
+            node.next = current;
         }
-        return resultList;
+        return root;
     }
 
-    public static class TreeNode {
+    private static ListNode initList() {
+        ListNode root = new ListNode(4);
+        root.next = new ListNode(2);
+        root.next.next = new ListNode(1);
+        root.next.next.next = new ListNode(3);
+        return root;
+    }
+//    public static ListNode sortList(ListNode head) {
+//        if (head == null) {
+//            return head;
+//        }
+//        int length = 0;
+//        ListNode node = head;
+//        while (node != null) {
+//            length++;
+//            node = node.next;
+//        }
+//        ListNode dummyHead = new ListNode(0, head);
+//        for (int subLength = 1; subLength < length; subLength <<= 1) {
+//            ListNode prev = dummyHead, curr = dummyHead.next;
+//            while (curr != null) {
+//                ListNode head1 = curr;
+//                for (int i = 1; i < subLength && curr.next != null; i++) {
+//                    curr = curr.next;
+//                }
+//                ListNode head2 = curr.next;
+//                curr.next = null;
+//                curr = head2;
+//                for (int i = 1; i < subLength && curr != null && curr.next != null; i++) {
+//                    curr = curr.next;
+//                }
+//                ListNode next = null;
+//                if (curr != null) {
+//                    next = curr.next;
+//                    curr.next = null;
+//                }
+//                ListNode merged = merge(head1, head2);
+//                prev.next = merged;
+//                while (prev.next != null) {
+//                    prev = prev.next;
+//                }
+//                curr = next;
+//            }
+//        }
+//        return dummyHead.next;
+//    }
+//
+//    public static ListNode merge(ListNode head1, ListNode head2) {
+//        ListNode dummyHead = new ListNode(0);
+//        ListNode temp = dummyHead, temp1 = head1, temp2 = head2;
+//        while (temp1 != null && temp2 != null) {
+//            if (temp1.val <= temp2.val) {
+//                temp.next = temp1;
+//                temp1 = temp1.next;
+//            } else {
+//                temp.next = temp2;
+//                temp2 = temp2.next;
+//            }
+//            temp = temp.next;
+//        }
+//        if (temp1 != null) {
+//            temp.next = temp1;
+//        } else if (temp2 != null) {
+//            temp.next = temp2;
+//        }
+//        return dummyHead.next;
+//    }
+
+    public static class ListNode {
         int val;
-        TreeNode left;
-        TreeNode right;
+        ListNode next;
 
-        TreeNode() {
+        ListNode() {
         }
 
-        TreeNode(int val) {
+        ListNode(int val, ListNode next) {
             this.val = val;
+            this.next = next;
         }
 
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        ListNode(int val) {
             this.val = val;
-            this.left = left;
-            this.right = right;
         }
     }
 }
