@@ -1,38 +1,39 @@
 package web.services.learn.multiThread;
 
-import static net.mindview.util.Print.print;
-
 public class Joining {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Sleeper sleepy = new Sleeper("Sleepy", 1500);
-        Sleeper grumpy = new Sleeper("Grumpy", 2000);
-        Joiner dopey = new Joiner("Dopey",sleepy);
-        Joiner doc = new Joiner("Doc",grumpy);
+        Sleeper grumpy = new Sleeper("Grumpy", 10000);
+        Joiner dopey = new Joiner("Dopey", sleepy);
+        Joiner doc = new Joiner("Doc", grumpy);
+        Thread.sleep(1000);
         grumpy.interrupt();
     }
 
     public static class Sleeper extends Thread {
-        int duration;
+        private int sleepTime;
 
         public Sleeper(String name, int sleepTime) {
             super(name);
-            duration = sleepTime;
+            this.sleepTime = sleepTime;
             start();
         }
 
         @Override
         public void run() {
             try {
-                sleep(duration);
+                System.out.println("Sleeper: " + this.getName() + " start to sleep.");
+                Thread.sleep(this.sleepTime);
             } catch (InterruptedException e) {
-                print(getName() + " was interrupted. " + "isInterrupted(): " + isInterrupted());
+                System.out.println("Sleeper: " + this.getName() + " is interrupted.");
             }
-            print(getName() + " has awakened.");
+            System.out.println("Sleeper: " + this.getName() + " is awakened.");
         }
     }
 
     public static class Joiner extends Thread {
+
         private Sleeper sleeper;
 
         public Joiner(String name, Sleeper sleeper) {
@@ -44,11 +45,12 @@ public class Joining {
         @Override
         public void run() {
             try {
+                System.out.println("Joiner: " + this.getName() + " start to be joined by sleeper: " + sleeper.getName());
                 sleeper.join();
             } catch (InterruptedException e) {
-                print("Interrupted.");
+                e.printStackTrace();
             }
-            print(getName() + " join completed.");
+            System.out.println("Joiner: " + this.getName() + " complete.");
         }
     }
 }
