@@ -11,8 +11,8 @@ public class ZeroOneKnapsack {
 
     public static void main(String[] args) {
         ZeroOneKnapsack zeroOneKnapsack = new ZeroOneKnapsack();
-//        zeroOneKnapsack.backTrack(0, 0);
-        zeroOneKnapsack.dynamicProgram2();
+        zeroOneKnapsack.backTrack(0, 0);
+//        zeroOneKnapsack.dynamicProgram2();
         System.out.println(zeroOneKnapsack.resultWeight);
     }
 

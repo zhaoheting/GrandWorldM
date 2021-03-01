@@ -7,17 +7,90 @@ public class Heap {
     private int[] origin;
     private int size;
 
+    /**
+     * Initial a empty heap.
+     *
+     * @param capacity
+     */
     public Heap(int capacity) {
         origin = new int[capacity];
         this.size = 0;
     }
 
-    public int size(){
+    /**
+     * Initial a heap on the basis of a not empty array.
+     *
+     * @param arr
+     */
+    public Heap(int[] arr) {
+        heapify(arr);
+        origin = arr;
+        this.size = arr.length;
+    }
+
+    //堆化
+    private void heapify(int[] arr) {
+        downUp(arr);
+//        upDown(arr);
+    }
+
+    //从下至上
+    private void downUp(int[] arr) {
+        int length = arr.length;
+        for (int i = 0; i < arr.length; ++i) {
+            int index = i;
+            while (index >= 0) {
+                int maxIndex = index;
+                if (2 * index + 1 < length && arr[maxIndex] < arr[2 * index + 1]) {
+                    maxIndex = 2 * index + 1;
+                }
+                if (2 * index + 2 < length && arr[maxIndex] < arr[2 * index + 2]) {
+                    maxIndex = 2 * index + 2;
+                }
+                if (maxIndex != index) {
+                    //swap
+                    int temp = arr[maxIndex];
+                    arr[maxIndex] = arr[index];
+                    arr[index] = temp;
+                }
+                index = index - 1 >> 1;
+            }
+        }
+    }
+
+    //从上至下
+    private void upDown(int[] arr) {
+        int length = arr.length;
+        for (int i = length - 1 >> 1; i >= 0; --i) {
+            int index = i;
+            while (index < length) {
+                int maxIndex = index;
+                if (2 * index + 1 < length && arr[maxIndex] < arr[2 * index + 1]) {
+                    maxIndex = 2 * index + 1;
+                    index = maxIndex;
+                }
+                if (2 * index + 2 < length && arr[maxIndex] < arr[2 * index + 2]) {
+                    maxIndex = 2 * index + 2;
+                    index = maxIndex;
+                }
+                if (maxIndex != index) {
+                    //swap
+                    int temp = arr[maxIndex];
+                    arr[maxIndex] = arr[index];
+                    arr[index] = temp;
+                }
+            }
+        }
+    }
+
+    public int size() {
         return this.size;
     }
-    public int getMax(){
+
+    public int getMax() {
         return origin[0];
     }
+
     public void insert(int x) {
         if (this.size >= origin.length) {
             return;
@@ -26,7 +99,7 @@ public class Heap {
         origin[size++] = x;
         //heapify
         int i = this.size - 1;
-        while ((i - 1) >> 1 > 0 && origin[i] > origin[(i - 1) >> 1]) {
+        while ((i - 1) >> 1 >= 0 && origin[i] > origin[(i - 1) >> 1]) {
             int temp = origin[i];
             origin[i] = origin[(i - 1) >> 1];
             origin[(i - 1) >> 1] = temp;
