@@ -37,5 +37,6 @@ public class ExceptionThread extends Thread {
 //        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
         ExecutorService executor = Executors.newCachedThreadPool(new MyExceptionThreadFactory());
         executor.execute(new ExceptionThread());
+        executor.shutdown();
     }
 }
