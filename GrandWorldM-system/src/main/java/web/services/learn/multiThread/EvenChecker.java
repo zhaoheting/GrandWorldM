@@ -13,12 +13,12 @@ public class EvenChecker extends Thread {
 
     @Override
     public void run() {
-        if (!generator.isCanceled()) {
+        while (!generator.isCanceled()) {
             int nextValue = generator.next();
             if (nextValue % 2 != 0) {
                 generator.cancel();
+                System.out.println(nextValue);
             }
-            System.out.println(nextValue);
         }
     }
 
