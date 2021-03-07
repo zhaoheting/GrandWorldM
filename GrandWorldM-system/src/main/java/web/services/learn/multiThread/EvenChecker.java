@@ -3,6 +3,9 @@ package web.services.learn.multiThread;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * 展示不正确访问资源造成的后果。
+ */
 public class EvenChecker extends Thread {
 
     private IntGenerator generator;
@@ -23,6 +26,7 @@ public class EvenChecker extends Thread {
     }
 
     public static void main(String[] args) {
+
         ExecutorService executorService = Executors.newCachedThreadPool();
         IntGenerator generator = new EvenGenerator();
         for (int i = 0; i < 10; ++i) {
