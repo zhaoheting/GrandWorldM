@@ -4,11 +4,11 @@ public class SerialNumberGenerator {
     private static volatile int currentNumber = 0;
 
     /**
-     * This example shows that ++i is unsafe.
+     * This example shows that ++i is unsafe. So we can add "synchronized" to solve it.
      *
      * @return
      */
-    public synchronized static int next() {
+    public static int next() {
         return ++currentNumber;
     }
 }
