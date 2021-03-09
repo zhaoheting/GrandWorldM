@@ -1,0 +1,1 @@
+Compare the difference between synchronize a method and synchronize a critical section. 
