@@ -1,6 +1,10 @@
 package web.services.learn.multiThread.compareSynchronized;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -10,10 +14,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class PairManager {
     protected Pair pair = new Pair();
     public AtomicInteger checkCount = new AtomicInteger(0);
-
+    private List<Pair> storage = Collections.synchronizedList(new ArrayList<Pair>());
 
     public synchronized Pair getPair() {
         return new Pair(pair.getX(), pair.getY());
+    }
+
+    public void store(Pair pair) {
+        this.storage.add(pair);
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     abstract public void increment();

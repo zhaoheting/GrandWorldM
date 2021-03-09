@@ -5,5 +5,6 @@ public class PairManagerImpl1 extends PairManager {
     public synchronized void increment() {
         pair.incrementX();
         pair.incrementY();
+        store(pair);
     }
 }
