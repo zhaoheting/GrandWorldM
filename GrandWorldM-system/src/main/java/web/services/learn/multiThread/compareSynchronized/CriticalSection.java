@@ -16,13 +16,31 @@ public class CriticalSection {
         PairManipulator manipulator2 = new PairManipulator(pm2);
         PairChecker pairChecker2 = new PairChecker(pm2);
 
+        PairManager pm3 = new PairManagerLockImpl1();
+        PairManipulator manipulator3 = new PairManipulator(pm3);
+        PairChecker pairChecker3 = new PairChecker(pm3);
+
+        PairManager pm4 = new PairManagerLockImpl1();
+        PairManipulator manipulator4 = new PairManipulator(pm4);
+        PairChecker pairChecker4 = new PairChecker(pm4);
+
         executorService.execute(manipulator1);
         executorService.execute(pairChecker1);
         executorService.execute(manipulator2);
         executorService.execute(pairChecker2);
+
         TimeUnit.MILLISECONDS.sleep(5000);
         System.out.println(manipulator1);
         System.out.println(manipulator2);
+
+        executorService.execute(manipulator3);
+        executorService.execute(pairChecker3);
+        executorService.execute(manipulator4);
+        executorService.execute(pairChecker4);
+        TimeUnit.MILLISECONDS.sleep(5000);
+
+        System.out.println(manipulator3);
+        System.out.println(manipulator4);
         System.exit(0);
     }
 }
