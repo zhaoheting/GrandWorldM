@@ -1,4 +1,4 @@
-package web.services.learn.multiThread;
+package web.services.learn.multiThread.threadPool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

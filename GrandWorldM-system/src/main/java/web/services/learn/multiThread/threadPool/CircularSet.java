@@ -1,9 +1,10 @@
-package web.services.learn.multiThread;
+package web.services.learn.multiThread.threadPool;
 
 public class CircularSet {
     private int[] items;
     private int length = 0;
     private int index = 0;
+//    Lock lock = new ReentrantLock();
 
     public CircularSet(int size) {
         this.items = new int[size];

@@ -1,4 +1,4 @@
-package web.services.learn.multiThread;
+package web.services.learn.multiThread.threadPool;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

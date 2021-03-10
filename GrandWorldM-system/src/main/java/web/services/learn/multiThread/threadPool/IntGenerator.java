@@ -1,4 +1,4 @@
-package web.services.learn.multiThread;
+package web.services.learn.multiThread.threadPool;
 
 import web.services.learn.containers.Generator;
 
