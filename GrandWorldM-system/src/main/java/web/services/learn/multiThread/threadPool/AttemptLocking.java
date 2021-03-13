@@ -15,7 +15,11 @@ public class AttemptLocking {
     private void timed() {
         boolean isLocked = lock.tryLock();
         try {
-            System.out.println("Timed is running.");
+            if(isLocked){
+                System.out.println("Timed is running the protected code.");
+            } else {
+                System.out.println("Timed is running alternative actions");
+            }
         } finally {
             if (isLocked) {
                 System.out.println("The lock has been acquired and then unlocked.");
