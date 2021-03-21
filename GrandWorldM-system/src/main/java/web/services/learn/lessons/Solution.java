@@ -1,50 +1,38 @@
 package web.services.learn.lessons;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 class Solution {
 
-    public static void main(String[] args) {
-        Integer[] nums = {1, 2, 3};
-        String result = new Solution().getLargest(nums);
-    }
-
     /**
-     * the interview question of microsoft.
-     * @param nums
-     * @return
+     * 找出正整数数组中最大的元素数量等于元素本身的元素，爱立信面试题(自己写的不一定对)。
+     *
+     * @param args
      */
-    private String getLargest(Integer[] nums) {
-        Arrays.sort(nums, new MyComparator());
-        StringBuilder s = new StringBuilder();
-        for(int i = 0; i < nums.length; ++i){
-            s.append((nums[i]));
-        }
-        return s.toString();
-    }
-
-    class MyComparator implements Comparator<Integer> {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            String[] s1 = String.valueOf(o1).split("");
-            String[] s2 = String.valueOf(o2).split("");
-            int i = 0;
-            for (; i < s1.length && i < s2.length; ++i) {
-                if (Integer.valueOf(s1[i]) > Integer.valueOf(s2[i])) {
-                    return 1;
-                } else if (Integer.valueOf(s1[i]) < Integer.valueOf(s2[i])) {
-                    return -1;
-                }
-            }
-            if (i == s1.length && i == s2.length) {
-                return 0;
-            } else if (i == s1.length) {
-                return Integer.valueOf(s2[i]) > Integer.valueOf(s2[0]) ? -1 : 1;
+    public static void main(String[] args) {
+        int[] arr = {2, 1, 3, 4, 2, 3, 3,3,4,4,4};
+        Arrays.sort(arr);
+        int[] variables = new int[3];//variables[0] is current number. variables[1] is the count of current number.
+        //variable[2] is the result;
+        variables[0] = arr[0];
+        variables[2] = Integer.MIN_VALUE;
+        Arrays.stream(arr).forEach(x -> {
+            if (x == variables[0]) {
+                ++variables[1];
             } else {
-                return Integer.valueOf(s1[i]) > Integer.valueOf(s1[0]) ? 1 : -1;
+                if (variables[0] == variables[1]) {
+                    variables[2] = Math.max(variables[2], variables[0]);
+                } else {
+                    variables[2] = Math.max(variables[2], -1);
+                }
+                variables[0] = x;
+                variables[1] = 1;
             }
+        });
+        if (variables[0] == variables[1] && variables[0] != variables[2]) {
+            variables[2] = variables[0];
         }
+        System.out.println(variables[2]);
     }
 
 }
