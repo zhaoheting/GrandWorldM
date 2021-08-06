@@ -1,49 +1,62 @@
 package web.services.learn.lessons;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
 
-    static boolean result = false;
-
     public static void main(String[] args) {
-        String[] param = {"", ""};
+        List<String> result = getIP();
+        result.stream().forEach(System.out::println);
+        System.out.println(result.size());
     }
 
-    private boolean check(String[] strings) {
-        Map<String, Set<String>> map = new HashMap<>();
-        int length = strings.length;
-        for (int index = 0; index < length; ++index) {
-            String key = strings[index].substring(0, strings[index].indexOf("="));
-            String[] values = strings[index].substring(strings[index].indexOf("=") + 1).split("");
-            Set<String> valueSet = new HashSet<>();
-            Set<String> keySet = new HashSet<>();
-            for (String value : values) {
-                if (map.containsKey(value)) {
-                    recurse(map, result, value, keySet);
-                } else {
-                    valueSet.add(value);
-                }
+    private static List<String> getIP() {
+        List<String> resultList = new ArrayList<>();
+        dfs(0, "25525511135", resultList, new StringBuilder(), 0);
+        return resultList;
+    }
+
+    private static void dfs(int index, String ipString, List<String> resultList, StringBuilder currentIp, int segment) {
+        int len = ipString.length();
+        if (index == len) {
+            if (isValid(currentIp.toString())) {
+                resultList.add(currentIp.toString());
             }
-            map.put(key, valueSet);
+            return;
         }
-        return result;
+        if (3 * (4 - segment) < len - index) {
+            return;
+        }
+        for (int i = index + 1; i <= len && i <= index + 3; ++i) {
+            int preLen = currentIp.length();
+            currentIp.append(ipString, index, i);
+            if (i != len) {
+                currentIp.append(".");
+            }
+            dfs(i, ipString, resultList, currentIp, segment + 1);
+            int currentLen = currentIp.length();
+            currentIp.delete(preLen, currentLen);
+        }
     }
 
-    private boolean recurse(Map<String, Set<String>> map, boolean result, String value, Set<String> keySet) {
-        if (!map.containsKey(value)) {
-            //recurse.
-            return result;
+    private static boolean isValid(String ipString) {
+        String[] ipArr = ipString.split("\\.");
+        int len = ipArr.length;
+        if (len != 4) {
+            return false;
         }
-        Set<String> currentSet = map.get(value);
-        for (String current : currentSet) {
-            keySet.add(current);
-            recurse(map, result, current, keySet);
-            keySet.remove(current);
+        boolean result = true;
+        for (String s : ipArr) {
+            int currentNum = Integer.parseInt(s);
+            if (s.toCharArray()[0] == '0' && s.length() > 1) {
+                return false;
+            }
+            result = currentNum >= 0 && currentNum <= 255;
+            if (!result) {
+                return false;
+            }
         }
-        return result;
+        return true;
     }
 }
