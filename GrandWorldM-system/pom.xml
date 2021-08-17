@@ -11,7 +11,6 @@
 
     <artifactId>GrandWorldM-system</artifactId>
     <dependencies>
-        
         <!-- jwt -->
         <!--<dependency>-->
         <!--<groupId>io.jsonwebtoken</groupId>-->
