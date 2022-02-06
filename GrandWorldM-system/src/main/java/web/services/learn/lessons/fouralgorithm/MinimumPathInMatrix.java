@@ -21,7 +21,8 @@ public class MinimumPathInMatrix {
     }
 
     /**
-     * @param i
+     * Solution in jike is wrong.
+     *
      * @param j
      * @param currentPath Summary of the value in matrix at current position.
      * @param matrix
@@ -42,6 +43,32 @@ public class MinimumPathInMatrix {
         //turn down.
         if (i + 1 < dimension) {
             backTrack(i + 1, j, currentPath + matrix[i + 1][j], matrix, dimension);
+        }
+    }
+
+    /**
+     * Back track with memo array to reduce time complexity.
+     *
+     * @param i
+     * @param j
+     * @param matrix
+     * @param currentPath
+     * @param memoryArray
+     */
+    private static void backTrackWithMemo(int i, int j, int[][] matrix, int currentPath, int[][] memoryArray) {
+        int length = matrix.length;
+        currentPath = currentPath + matrix[i][j];
+        memoryArray[i][j] = currentPath;
+        if (i == length - 1 && j == length - 1) {
+            minPath = Math.min(minPath, currentPath);
+            System.out.println(minPath);
+            return;
+        }
+        if (i + 1 < length && (memoryArray[i + 1][j] == 0 || memoryArray[i + 1][j] > currentPath + matrix[i + 1][j])) {
+            backTrackWithMemo(i + 1, j, matrix, currentPath, memoryArray);
+        }
+        if (j + 1 < length && (memoryArray[i][j + 1] == 0 || memoryArray[i][j + 1] > currentPath + matrix[i][j + 1])) {
+            backTrackWithMemo(i, j + 1, matrix, currentPath, memoryArray);
         }
     }
 
