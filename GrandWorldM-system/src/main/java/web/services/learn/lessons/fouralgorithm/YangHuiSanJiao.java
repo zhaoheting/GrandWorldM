@@ -83,11 +83,10 @@ public class YangHuiSanJiao {
             }
         }
         List<Integer> lastList = list.get(list.size() - 1);
-        int length = lastList.size();
         int result = Integer.MAX_VALUE;
-        for (int n = 0; n < length; ++n) {
-            System.out.println(lastList.get(n));
-            result = Math.min(result, lastList.get(n));
+        for (Integer integer : lastList) {
+            System.out.println(integer);
+            result = Math.min(result, integer);
         }
         System.out.println(result);
     }
