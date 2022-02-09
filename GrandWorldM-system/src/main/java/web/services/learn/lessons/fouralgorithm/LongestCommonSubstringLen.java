@@ -53,7 +53,10 @@ public class LongestCommonSubstringLen {
             for (int column = 1; column < bLen; ++column) {
                 if (aArr[row] != bArr[column]) {
                     lengthArray[row][column] = max(lengthArray[row - 1][column], lengthArray[row][column - 1], lengthArray[row - 1][column - 1]);
-                } else {
+                } else {//
+                    //课程中写到：如果：a[i]==b[j]，那么：max_lcs(i, j)就等于：max(max_lcs(i-1,j-1)+1, max_lcs(i-1, j), max_lcs(i, j-1))；。
+                    //对于例子mitc和mtac，因为max_lcs(i-1,j-1)+1涵盖了max_lcs(i-1, j)+1的情况，所以其不用加一也不影响结果。
+                    //而对于例子aba和a，则要求max_lcs(i-1, j)必须不能加一了，所以这里max_lcs(i-1, j)和max_lcs(i, j-1)在a[i]==b[j]时都不能加1.
                     lengthArray[row][column] = max(lengthArray[row - 1][column], lengthArray[row][column - 1], lengthArray[row - 1][column - 1] + 1);
                 }
             }
