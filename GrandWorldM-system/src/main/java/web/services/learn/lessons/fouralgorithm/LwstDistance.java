@@ -68,6 +68,18 @@ public class LwstDistance {
         //Fill the remainder values.
         for (int row = 1; row < aLen; ++row) {
             for (int column = 1; column < bLen; ++column) {
+                /*
+                 * 这段话很重要！！！
+                 *（1）文中对递归树中的状态三元组(i, j, edist)的解释是，“状态包含三个变量 (i, j, edist)，其中，edist表示处理到 a[i] 和 b[j] 时，已经执行的编辑操作的次数。
+                 * ”这里的“处理到a[i]和b[j]时”，其实是在说将要处理但还并未处理a[i]和b[j]。
+                 * edist并不包括对a[i]和[j]的编辑操作。递归树图片后紧接着的图片中，(i, j, min_edist)的min_edist也并不包括对a[i]和[j]的编辑操作。
+                 *（2）而二维状态表图片中每格的值和动态规划的实现代码中minDist[i][j]两者均代表：到处理完a[i]和b[j]之后为止，已经执行的编辑操作的最少次数。
+                 * 根据这个意思，可知状态转移方程中的min_edist(i, j)也是包括对a[i]和[j]的编辑操作的。
+                 * 如果按照（1）中的意思，状态转移方程中的min_edist(i, j)就不应该包括对a[i]和[j]的编辑操作，
+                 * 也不应该判断a[i]和b[j]是否相等，而应该判断的是a[i - 1]和b[j - 1]是否相等；
+                 * 并且动态规划的实现代码中循环终止条件就不应是小于n或m，而应是小于等于n或m。
+                 *
+                 */
                 if (aArr[row] != bArr[column]) {
                     distance[row][column] = min(distance[row - 1][column] + 1, distance[row][column - 1] + 1, distance[row - 1][column - 1] + 1);
                 } else {
