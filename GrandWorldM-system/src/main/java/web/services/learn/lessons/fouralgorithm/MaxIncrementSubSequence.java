@@ -14,6 +14,14 @@ public class MaxIncrementSubSequence {
         return dpTable(nums);
     }
 
+
+    /**
+     * leetcode： https://leetcode-cn.com/problems/longest-increasing-subsequence/
+     * 以下答案是我自己想的，效率要高于leetcode上的答案。 
+     *
+     * @param nums
+     * @return {@link int}
+     */
     private int dpTable(int[] nums) {
         int length = nums.length;
         int[] states = new int[length];
