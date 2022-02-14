@@ -12,13 +12,13 @@ public class LwstDistance {
 
     public static void main(String[] args) {
         LwstDistance lwstDistance = new LwstDistance();
-//        lwstDistance.lwstBackTrack(0, 0, 0);
-        lwstDistance.lwstDynamicProgram();
+        lwstDistance.lwstBackTrack(0, 0, 0);
+//        lwstDistance.lwstDynamicProgram();
         System.out.println(lwstDistance.minEditDistance);
     }
 
     /**
-     * 回溯算法。
+     * 极客时间上的回溯算法。
      *
      * @param aIndex
      * @param bIndex
@@ -45,6 +45,35 @@ public class LwstDistance {
             lwstBackTrack(aIndex + 1, bIndex, currentEditDistance + 1);
             lwstBackTrack(aIndex, bIndex + 1, currentEditDistance + 1);
             lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance + 1);
+        }
+    }
+
+    /**
+     * 自己想到的回溯思路。
+     *
+     * @param aIndex
+     * @param bIndex
+     * @param currentEditDistance
+     */
+    public void lwstBackTrack2(int aIndex, int bIndex, int currentEditDistance) {
+        if (aIndex == aLen && bIndex == bLen) {
+            minEditDistance = Math.min(minEditDistance, currentEditDistance);
+            return;
+        }
+        if (aArr[aIndex] == bArr[bIndex]) {
+            if (aIndex + 1 <= aLen && bIndex + 1 <= bLen) {
+                lwstBackTrack2(aIndex + 1, bIndex + 1, currentEditDistance);
+            }
+        } else {
+            if (aIndex + 1 <= aLen) {
+                lwstBackTrack(aIndex + 1, bIndex, currentEditDistance + 1);
+            }
+            if (bIndex + 1 <= bLen) {
+                lwstBackTrack(aIndex, bIndex + 1, currentEditDistance + 1);
+            }
+            if (aIndex + 1 <= aLen && bIndex + 1 <= bLen) {
+                lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance + 1);
+            }
         }
     }
 
