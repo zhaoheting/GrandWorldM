@@ -4,15 +4,15 @@ package web.services.learn.lessons.fouralgorithm;
  * 搜索引擎拼写纠错功能第一种实现---莱文斯坦距离（回溯和动态规划）。
  */
 public class LwstDistance {
-    private char[] aArr = "mitcmu".toCharArray();
-    private char[] bArr = "mtacnu".toCharArray();
+    private char[] aArr = "mitcmudsfwedfgdfggf".toCharArray();
+    private char[] bArr = "mtacnuedfjklsgdfgdfgdrjn".toCharArray();
     int aLen = aArr.length;
     int bLen = bArr.length;
     int minEditDistance = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
         LwstDistance lwstDistance = new LwstDistance();
-        lwstDistance.lwstBackTrack(0, 0, 0);
+        lwstDistance.lwstBackTrack(0, 0, 0, new int[lwstDistance.aLen][lwstDistance.bLen]);
 //        lwstDistance.lwstDynamicProgram();
         System.out.println(lwstDistance.minEditDistance);
     }
@@ -23,7 +23,7 @@ public class LwstDistance {
      * @param aIndex
      * @param bIndex
      */
-    public void lwstBackTrack(int aIndex, int bIndex, int currentEditDistance) {
+    public void lwstBackTrack(int aIndex, int bIndex, int currentEditDistance, int[][] memoArray) {
         //One of the strings is traversed completely at least.
         if (aIndex == aLen || bIndex == bLen) {
             if (aIndex < aLen) {
@@ -37,43 +37,18 @@ public class LwstDistance {
             }
             return;
         }
-        //None of the strings is traversed completely.
-        //If current two characters are same.
-        if (aArr[aIndex] == bArr[bIndex]) {
-            lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance);
-        } else {//Current two characters are different.
-            lwstBackTrack(aIndex + 1, bIndex, currentEditDistance + 1);
-            lwstBackTrack(aIndex, bIndex + 1, currentEditDistance + 1);
-            lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance + 1);
-        }
-    }
-
-    /**
-     * 自己想到的回溯思路。
-     *
-     * @param aIndex
-     * @param bIndex
-     * @param currentEditDistance
-     */
-    public void lwstBackTrack2(int aIndex, int bIndex, int currentEditDistance) {
-        if (aIndex == aLen && bIndex == bLen) {
-            minEditDistance = Math.min(minEditDistance, currentEditDistance);
+        if (memoArray[aIndex][bIndex] != 0 && memoArray[aIndex][bIndex] < currentEditDistance) {
             return;
         }
+        memoArray[aIndex][bIndex] = currentEditDistance;
+        //Both of two strings are traversed completely only when their lengths are equal.
+        //If current two characters are same.
         if (aArr[aIndex] == bArr[bIndex]) {
-            if (aIndex + 1 <= aLen && bIndex + 1 <= bLen) {
-                lwstBackTrack2(aIndex + 1, bIndex + 1, currentEditDistance);
-            }
-        } else {
-            if (aIndex + 1 <= aLen) {
-                lwstBackTrack(aIndex + 1, bIndex, currentEditDistance + 1);
-            }
-            if (bIndex + 1 <= bLen) {
-                lwstBackTrack(aIndex, bIndex + 1, currentEditDistance + 1);
-            }
-            if (aIndex + 1 <= aLen && bIndex + 1 <= bLen) {
-                lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance + 1);
-            }
+            lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance, memoArray);
+        } else {//Current two characters are different.
+            lwstBackTrack(aIndex + 1, bIndex, currentEditDistance + 1, memoArray);
+            lwstBackTrack(aIndex, bIndex + 1, currentEditDistance + 1, memoArray);
+            lwstBackTrack(aIndex + 1, bIndex + 1, currentEditDistance + 1, memoArray);
         }
     }
 
