@@ -78,7 +78,8 @@ public class LwstDistance {
     }
 
     /**
-     * 动态规划计算莱文斯坦距离。
+     * 动态规划计算莱文斯坦距离。在计算任意的状态值distance[i][j]时，我们认为它的前置状态distance[i-1][j]、
+     * distance[i][j-1]、distance[i-1][j-1]都是经过变换后已经变成完全相同字串了
      */
     public void lwstDynamicProgram() {
         //First row.
@@ -86,13 +87,19 @@ public class LwstDistance {
         for (int column = 0; column < bLen; ++column) {
             if (column == 0) {
                 distance[0][0] = aArr[0] == bArr[column] ? 0 : 1;
+            } else if (aArr[0] == bArr[column]) {
+                distance[0][column] = column;
             } else {
                 distance[0][column] = distance[0][column - 1] + 1;
             }
         }
         //First column.
         for (int row = 1; row < aLen; ++row) {
-            distance[row][0] = distance[row - 1][0] + 1;
+            if (bArr[0] == aArr[row]) {
+                distance[row][0] = row;
+            } else {
+                distance[row][0] = distance[row - 1][0] + 1;
+            }
         }
         //Fill the remainder values.
         for (int row = 1; row < aLen; ++row) {
