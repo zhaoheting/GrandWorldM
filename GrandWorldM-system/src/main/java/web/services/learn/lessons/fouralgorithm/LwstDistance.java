@@ -4,8 +4,8 @@ package web.services.learn.lessons.fouralgorithm;
  * 搜索引擎拼写纠错功能第一种实现---莱文斯坦距离（回溯和动态规划）。
  */
 public class LwstDistance {
-    private char[] aArr = "mitcmudsfwedfgdfggf".toCharArray();
-    private char[] bArr = "mtacnuedfjklsgdfgdfgdrjn".toCharArray();
+    private char[] aArr = "mitcmufdsfdfdsgfdg".toCharArray();
+    private char[] bArr = "mtacnutrjehbfdasdfdsaffdg".toCharArray();
     int aLen = aArr.length;
     int bLen = bArr.length;
     int minEditDistance = Integer.MAX_VALUE;
@@ -13,8 +13,10 @@ public class LwstDistance {
     public static void main(String[] args) {
         LwstDistance lwstDistance = new LwstDistance();
         lwstDistance.lwstBackTrack(0, 0, 0, new int[lwstDistance.aLen][lwstDistance.bLen]);
-//        lwstDistance.lwstDynamicProgram();
         System.out.println(lwstDistance.minEditDistance);
+
+        int result = lwstDistance.lwstDynamicProgram2(lwstDistance.aLen - 1, lwstDistance.bLen - 1, new int[lwstDistance.aLen][lwstDistance.bLen]);
+        System.out.println(result);
     }
 
     /**
@@ -53,7 +55,7 @@ public class LwstDistance {
     }
 
     /**
-     * 动态规划计算莱文斯坦距离。在计算任意的状态值distance[i][j]时，我们认为它的前置状态distance[i-1][j]、
+     * 动态转移表法。在计算任意的状态值distance[i][j]时，我们认为它的前置状态distance[i-1][j]、
      * distance[i][j-1]、distance[i-1][j-1]都是经过变换后已经变成完全相同字串了
      */
     public void lwstDynamicProgram() {
@@ -99,6 +101,40 @@ public class LwstDistance {
             }
         }
         minEditDistance = distance[aLen - 1][bLen - 1];
+    }
+
+    /**
+     * 动态转移方程法。
+     *
+     * @param aIndex
+     * @param bIndex
+     * @param memoArray
+     * @return
+     */
+    public int lwstDynamicProgram2(int aIndex, int bIndex, int[][] memoArray) {
+        if (aIndex == 0 || bIndex == 0) {
+            if (aIndex > 0) {
+                return aIndex;
+            }
+            if (bIndex > 0) {
+                return bIndex;
+            }
+            return 0;
+        }
+        if (memoArray[aIndex][bIndex] != 0) {
+            return memoArray[aIndex][bIndex];
+        }
+        int x = lwstDynamicProgram2(aIndex - 1, bIndex, memoArray) + 1;
+        int y = lwstDynamicProgram2(aIndex, bIndex - 1, memoArray) + 1;
+        int z;
+        if (aArr[aIndex] != bArr[bIndex]) {
+            z = lwstDynamicProgram2(aIndex - 1, bIndex - 1, memoArray) + 1;
+        } else {
+            z = lwstDynamicProgram2(aIndex - 1, bIndex - 1, memoArray);
+        }
+        int result = this.min(x, y, z);
+        memoArray[aIndex][bIndex] = result;
+        return result;
     }
 
     /**
