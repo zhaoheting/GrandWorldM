@@ -1,13 +1,15 @@
 package web.services.learn.lessons.fouralgorithm;
 
+import java.util.Arrays;
+
 /**
  * 0-1 背包问题升级。在满足物品总和不超过背包最大允许重量前提下，求出最大价值。
  */
 public class ZeroOneKnapsackPlus {
 
-    int[] itemWeightArray = {2, 2, 4, 6, 3};
-    int[] itemValueArray = {3, 4, 8, 9, 6};
-    int maxWeight = 9;
+    int[] itemWeightArray = {2, 2, 4, 6};
+    int[] itemValueArray = {3, 4, 8, 9};
+    int maxWeight = 10;
     int resultValueSum = Integer.MIN_VALUE;
 
     public static void main(String[] args) {
@@ -79,20 +81,22 @@ public class ZeroOneKnapsackPlus {
     private void dynamicProgram2() {
         int itemAmount = itemWeightArray.length;
         int[] stateArr = new int[maxWeight + 1];
-        if (itemWeightArray[0] <= maxWeight) {
-            stateArr[itemWeightArray[0]] = itemValueArray[0];
-        }
-        for (int item = 1; item < itemAmount; ++item) {
+        Arrays.fill(stateArr, -1);
+        stateArr[0] = 0;
+        for (int item = 0; item < itemAmount; ++item) {
             int currentWeight = itemWeightArray[item];
             for (int j = maxWeight - currentWeight; j >= 0; --j) {
-                int currentValueSum = stateArr[j] + itemValueArray[item];
-                if (currentValueSum > stateArr[j + currentWeight]) {
-                    stateArr[j + currentWeight] = currentValueSum;
+                if (stateArr[j] >= 0) {
+                    int currentValueSum = stateArr[j] + itemValueArray[item];
+                    if (currentValueSum > stateArr[j + currentWeight]) {
+                        stateArr[j + currentWeight] = currentValueSum;
+                    }
                 }
             }
         }
         for (int k = 0; k <= maxWeight; ++k) {
             int currentState = stateArr[k];
+            System.out.println(currentState);
             if (resultValueSum < currentState) {
                 resultValueSum = currentState;
             }
