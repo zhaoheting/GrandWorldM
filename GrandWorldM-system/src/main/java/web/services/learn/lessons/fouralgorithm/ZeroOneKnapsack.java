@@ -11,8 +11,8 @@ public class ZeroOneKnapsack {
 
     public static void main(String[] args) {
         ZeroOneKnapsack zeroOneKnapsack = new ZeroOneKnapsack();
-        zeroOneKnapsack.backTrack(0, 0);
-//        zeroOneKnapsack.dynamicProgram2();
+//        zeroOneKnapsack.backTrack(0, 0);
+        zeroOneKnapsack.dynamicProgram2();
         System.out.println(zeroOneKnapsack.resultWeight);
     }
 
@@ -81,9 +81,7 @@ public class ZeroOneKnapsack {
     private void dynamicProgram2() {
         boolean[] stateArray = new boolean[maxWeight + 1];
         stateArray[0] = true;
-        if (itemArray[0] <= maxWeight) {
-            stateArray[itemArray[0]] = true;
-        }
+
         for (int item = 0, length = itemArray.length; item < length; ++item) {
             for (int j = maxWeight - itemArray[item]; j >= 0; --j) {
                 if (stateArray[j]) {

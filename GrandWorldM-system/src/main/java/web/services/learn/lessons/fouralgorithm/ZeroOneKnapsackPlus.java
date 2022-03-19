@@ -3,7 +3,7 @@ package web.services.learn.lessons.fouralgorithm;
 import java.util.Arrays;
 
 /**
- * 0-1 背包问题升级。在满足物品总和不超过背包最大允许重量前提下，求出最大价值。
+ * 0-1 背包问题升级。在满足物品总和不超过背包最大允许重量前提下，求出最大价值。(部分代码有问题，没时间修复。)
  */
 public class ZeroOneKnapsackPlus {
 
@@ -96,7 +96,6 @@ public class ZeroOneKnapsackPlus {
         }
         for (int k = 0; k <= maxWeight; ++k) {
             int currentState = stateArr[k];
-            System.out.println(currentState);
             if (resultValueSum < currentState) {
                 resultValueSum = currentState;
             }
