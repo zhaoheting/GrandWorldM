@@ -1,12 +1,86 @@
 package web.services.learn;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@RestController
+//特斯拉面试题
 public class LoveFlyWithDream {
 
+    //第一题
+    @GetMapping(value = "/healthcheck")
+    public ResponseEntity<String> healthcheck(@RequestParam(value = "format", required = true) String format) throws JsonProcessingException {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", "application/json");
+        if ("full".equals(format)) {
+            String dataTime = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+            DetailEntity entity = new DetailEntity();
+            entity.setCurrentTime(dataTime);
+            entity.setStatus("OK");
+            return ResponseEntity.ok().headers(httpHeaders).body(new ObjectMapper().writeValueAsString(entity));
+        }
+        if ("short".equals(format)) {
+            SimpleEntity entity = new SimpleEntity();
+            entity.setStatus("OK");
+            return ResponseEntity.ok().headers(httpHeaders).body(new ObjectMapper().writeValueAsString(entity));
+        }
+
+        return ResponseEntity.badRequest().headers(httpHeaders).build();
+    }
+
+    static class SimpleEntity {
+        String status;
+
+        public SimpleEntity() {
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
+
+    static class DetailEntity {
+        String currentTime;
+        String status;
+
+        public DetailEntity() {
+        }
+
+        public String getCurrentTime() {
+            return currentTime;
+        }
+
+        public void setCurrentTime(String currentTime) {
+            this.currentTime = currentTime;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
+
+
     /**
-     * 微策略面试题，判断字符串是否平衡。
+     * 特斯拉面试题。
      *
      * @param args
      */
@@ -15,67 +89,30 @@ public class LoveFlyWithDream {
         List<String> result = new ArrayList<>();
         result.add(s1);
         LoveFlyWithDream loveFlyWithDream = new LoveFlyWithDream();
-        List<String> res = loveFlyWithDream.braces(result);
+        int[] C = {3, 2, 1, 2, 1, 2};
+        int res = loveFlyWithDream.solution("aabbcc", C);
         System.out.println(res);
     }
 
-
-    private List<String> braces(List<String> values) {
-        int length = values.size();
-        List<String> resultList = new ArrayList<>();
-        for (int i = 0; i < length; ++i) {
-            String current = values.get(i);
-            if (current.length() % 2 != 0) {
-                resultList.add("NO");
+    //特斯拉面试题。
+    public int solution(String S, int[] C) {
+        // write your code in Java SE 8
+        //aabbcc 121212.
+        char[] sArray = S.toCharArray();
+        int leftIndex = 0, rightIndex = 0;
+        int result = 0;
+        while (rightIndex < sArray.length) {
+            int maxC = C[leftIndex], sumC = 0;
+            while (rightIndex < sArray.length && sArray[leftIndex] == sArray[rightIndex]) {
+                maxC = Math.max(maxC, C[rightIndex]);
+                sumC += C[rightIndex];
+                ++rightIndex;
             }
-            if (isBalance(current)) {
-                resultList.add("YES");
-            } else {
-                resultList.add("NO");
+            if (leftIndex < rightIndex - 1) {
+                result += sumC - maxC;
             }
+            leftIndex = rightIndex;
         }
-        return resultList;
-    }
-
-    private boolean isBalance(String value) {
-        int length = value.length();
-        boolean[][] isBan = new boolean[length][length];
-        ///init
-        for (int i = 0; i < length; ++i) {
-            for (int j = 0; j < length; ++j) {
-                if (i == j) {
-                    isBan[i][j] = false;
-                }
-                if (i > j) {
-                    isBan[i][j] = true;
-                }
-            }
-        }
-
-        for (int c = 1; c < length; ++c) {
-            for (int r = c - 1; r >= 0; --r) {
-                if (((c < 2 || isBan[r][c - 2]) && check(value.charAt(c - 1), value.charAt(c))) || (isBan[r + 1][c - 1] && check(value.charAt(r), value.charAt(c)))) {
-                    isBan[r][c] = true;
-                }
-            }
-        }
-        return isBan[0][length - 1];
-    }
-
-    private boolean check(char left, char right) {
-        return left == '(' && right == ')' || left == '{' && right == '}' || left == '[' && right == ']';
-    }
-
-    private static class Node {
-        int data;
-        Node left, right;
-
-        public Node() {
-        }
-
-        public Node(int newData) {
-            left = right = null;
-            int data;
-        }
+        return result;
     }
 }
