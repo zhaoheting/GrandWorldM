@@ -1,5 +1,6 @@
 package web.services.learn.chapter.three;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -71,6 +72,7 @@ public class PostfixExpression {
     }
 
     public static void main(String[] args) {
+        //Add a postfix directly.
         PostfixExpression postfixExpression = new PostfixExpression();
         postfixExpression.add(6);
         postfixExpression.add(5);
@@ -85,5 +87,43 @@ public class PostfixExpression {
         postfixExpression.add(PostfixExpression.FOUR_FUNCTIONS.MULTIPLY);
         double result = postfixExpression.getResult();
         System.out.println(result);
+
+        // Convert a expression into postfix firstly and then calculate it.
+        String infix = "9-3-1+2*2+(3/2+2)";
+        List<Character> postfix = PostfixConversion.convertNumber(infix);
+        double result2 = calculateByPostfix(postfix);
+        System.out.println(result2);
+
+    }
+
+    private static double calculateByPostfix(List<Character> postfix) {
+        Stack<Double> stack = new Stack<>();
+        int result = 0;
+        postfix.forEach(x -> {
+            if (Character.isDigit(x)) {
+                stack.push(x - 48d);
+            } else {
+                double param2 = stack.pop(), param1 = stack.pop();
+                double current = calculate(param1, param2, x);
+                stack.push(current);
+            }
+        });
+        return stack.pop();
+    }
+
+    private static double calculate(double param1, double param2, char operator) {
+        switch (operator) {
+            case '+':
+                return param1 + param2;
+            case '-':
+                return param1 - param2;
+            case '*':
+                return param1 * param2;
+            case '/':
+                return param1 / param2;
+            default:
+                break;
+        }
+        return 0;
     }
 }

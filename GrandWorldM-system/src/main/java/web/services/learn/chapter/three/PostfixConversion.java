@@ -1,7 +1,5 @@
 package web.services.learn.chapter.three;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -12,14 +10,14 @@ import java.util.Stack;
 public class PostfixConversion {
 
     public static void main(String[] args) {
-        String infix = "a+b*c+(d*e+f)*g";
-        List<Character> result = convert(infix);
+        String infix = "x-y-z-a+b*c+(d*e+f)*g";
+        List<Character> result = convertLetter(infix);
         for (char c : result) {
             System.out.print(c + " ");
         }
     }
 
-    public static List<Character> convert(String infix) {
+    public static List<Character> convertLetter(String infix) {
         Stack<Character> symbols = new Stack<>();
         List<Character> result = new ArrayList<>();
         for (char c : infix.toCharArray()) {
@@ -45,6 +43,35 @@ public class PostfixConversion {
             result.add(symbols.pop());
         }
         return result;
+    }
+
+
+    public static List<Character> convertNumber(String expression) {
+        char[] expressionArray = expression.toCharArray();
+        Stack<Character> stack = new Stack<>();
+        List<Character> resultList = new ArrayList<>();
+        for (int i = 0; i < expression.length(); ++i) {
+            if (Character.isDigit((expressionArray[i]))) {
+                resultList.add(expressionArray[i]);
+                continue;
+            }
+            if (expressionArray[i] == '+' || expressionArray[i] == '-' || expressionArray[i] == '*' || expressionArray[i] == '/' || expressionArray[i] == '(') {
+                while (!stack.isEmpty() && stack.peek() != '(' && getPriority(stack.peek()) >= getPriority(expressionArray[i])) {
+                    resultList.add(stack.pop());
+                }
+                stack.push(expressionArray[i]);
+            }
+            if (expressionArray[i] == ')') {
+                while (stack.peek() != '(') {
+                    resultList.add(stack.pop());
+                }
+                stack.pop();
+            }
+        }
+        while (!stack.isEmpty()) {
+            resultList.add(stack.pop());
+        }
+        return resultList;
     }
 
     private static int getPriority(char symbol) {
